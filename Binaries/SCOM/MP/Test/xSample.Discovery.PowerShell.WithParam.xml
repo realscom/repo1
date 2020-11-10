@@ -1,0 +1,197 @@
+<ManagementPack ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<Manifest>
+    <Identity>
+    <ID>SampleA.Discovery.PowerShell.WithParam</ID>
+    <Version>1.0.0.5</Version>
+    </Identity>
+    <Name>SampleA.Discovery.PowerShell.WithParam</Name>
+    <References>
+    <Reference Alias="Windows">
+    <ID>Microsoft.Windows.Library</ID>
+    <Version>7.5.8501.0</Version>
+    <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+    </Reference>
+    <Reference Alias="System">
+    <ID>System.Library</ID>
+    <Version>7.5.8501.0</Version>
+    <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+    </Reference>
+    <Reference Alias="SystemCenter">
+    <ID>Microsoft.SystemCenter.Library</ID>
+    <Version>7.0.8433.0</Version>
+    <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+    </Reference>
+    <Reference Alias="Health">
+    <ID>System.Health.Library</ID>
+    <Version>7.0.8433.0</Version>
+    <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+    </Reference>
+    </References>
+</Manifest>
+<TypeDefinitions>
+    <EntityTypes>
+    <ClassTypes>
+    <ClassType ID="SampleA.Discovery.PowerShell.WithParam.Class" Base="Windows!Microsoft.Windows.LocalApplication" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+    <Property ID="Files" Type="string"/>
+    </ClassType>
+    </ClassTypes>
+    </EntityTypes>
+    <ModuleTypes>
+    <DataSourceModuleType ID="SampleA.Discovery.PowerShell.WithParam.Discovery.DataSourceModule" Accessibility="Internal" Batching="false">
+    <Configuration>
+    <xsd:element name="IntervalSeconds" type="xsd:integer" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+    <xsd:element name="SyncTime" type="xsd:string" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+    <xsd:element name="TimeoutSeconds" type="xsd:integer" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+    <xsd:element name="IgnoreFolder" type="xsd:string" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+    </Configuration>
+    <OverrideableParameters>
+    <OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+    <OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string" />
+    <OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+    <OverrideableParameter ID="IgnoreFolder" Selector="$Config/IgnoreFolder$" ParameterType="string" />
+    </OverrideableParameters>
+    <ModuleImplementation Isolation="Any">
+    <Composite>
+    <MemberModules>
+    <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.TimedPowerShell.DiscoveryProvider">
+    <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+    <SyncTime>$Config/SyncTime$</SyncTime>
+    <ScriptName>SampleA.Discovery.PowerShell.WithParam.Discovery.ps1</ScriptName>
+    <ScriptBody><![CDATA[
+    Param ($SourceId,$ManagedEntityId,$ComputerName,$IgnoreFolder) # Need this to pass params in properly.
+    <#**************************************** LOG & QUIT ****************************************#>
+    Function LogAndQuit {
+    If ($script:CountWarning -gt 0) {
+    $EventId=17611
+    $EventLevel=2
+    } Else {
+    $EventId=17610
+    $EventLevel=0
+    }
+    # Use MOMScriptAPI.LogScriptEvent method to log events because Write-EventLog doesn't work on new OSs.
+    $MomApi.LogScriptEvent("SampleA.Discovery.PowerShell.WithParam.Discovery.ps1", $EventId, $EventLevel, "Folder discovery script executed.`rWorkflow Name: SampleA.Discovery.PowerShell.WithParam.Discovery`rManagement Pack: SampleA.Discovery.PowerShell.WithParam (1.0.0.5)`r$Script:Message`r$Error") # The $Error here will dump any errors into the event, don't know if we need it yet.
+    }
+    <#**************************************** CHECK FOLDERS ****************************************#>
+    Function CheckFolders {
+    Param ($SourceId,$ManagedEntityId,$ComputerName,$IgnoreFolder) # Need this to pass params in properly.
+    $ErrorActionPreference="Continue"
+
+    <# FOR TESTING
+    $SourceId='{00000000-0000-0000-0000-000000000000}'
+    $ManagedEntityId='{00000000-0000-0000-0000-000000000000}'
+    $ComputerName='SRV1.test.local'
+    $IgnoreFolder="folder1" # this is what will get passed in by the override.
+    $IgnoreFolder=$IgnoreFolder.Split(",") # split into array so we can check each item.
+    #>
+    $IgnoreFolder=$IgnoreFolder.Split(",") # split into array so we can check each item.
+
+    $MomApi=New-Object -comObject 'MOM.ScriptAPI' # MOMScriptAPI object.
+    $DiscoveryData=$MomApi.CreateDiscoveryData(0, $SourceId, $ManagedEntityId) # Create MOMDiscoveryData object to store discovery data.
+    $RootFolder="C:\temp\Anthony"
+    $Folders=Get-ChildItem -Directory -Path $RootFolder | Where-Object {$_.PSIsContainer -eq $True}
+    ForEach ($SubFolder in $Folders) {
+    $FolderName=$SubFolder.Name
+    $FullPath="$RootFolder\$FolderName"
+    $Result=$IgnoreFolder -contains $FolderName
+    $Files=Get-ChildItem -File -Path $FullPath
+    $FileCount=$Files.count 
+    if($FileCount -lt 2 -and $Result -ne $True) { # if there's only 1 file AND no override for the folder ($Result -ne $True) throw warning.
+    $script:CountWarning+=1
+    $script:Message+="[WARNING] $FolderName only has $FileCount file.`r"
+    }
+    $FinalString+="$FolderName=$FileCount,"
+    }
+
+    $FinalString=$FinalString.TrimEnd(",")
+    <# FOR TESTING
+    write-host "Files: $FinalString"
+    #>
+    # Add discovery data
+    $Instance=$DiscoveryData.CreateClassInstance("$MPElement[Name='SampleA.Discovery.PowerShell.WithParam.Class']$")
+    $Instance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $ComputerName)
+    $Instance.AddProperty("$MPElement[Name='SampleA.Discovery.PowerShell.WithParam.Class']/Files$", $FinalString)
+    $Instance.AddProperty("$MPElement[Name='System!System.Entity']/DisplayName$", $ComputerName)
+    $DiscoveryData.AddInstance($Instance)
+    # Submit discovery data back to Operations Manager and complete the script.
+    $DiscoveryData
+    <# FOR TESTING
+    $MomApi.Return($DiscoveryData)
+    #>
+    LogAndQuit
+    }
+    CheckFolders -SourceId $SourceId -ManagedEntityId $ManagedEntityId -ComputerName $ComputerName -IgnoreFolder $IgnoreFolder # Need this to pass params in properly.
+    ]]>
+    </ScriptBody>
+    <Parameters>
+    <Parameter>
+    <Name>SourceId</Name>
+    <Value>$MPElement$</Value>
+    </Parameter>
+    <Parameter>
+    <Name>ManagedEntityId</Name>
+    <Value>$Target/Id$</Value>
+    </Parameter>
+    <Parameter>
+    <Name>ComputerName</Name>
+    <Value>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+    </Parameter>
+    <Parameter>
+    <Name>IgnoreFolder</Name>
+    <Value>$Config/IgnoreFolder$</Value>
+    </Parameter>
+    </Parameters>
+    <TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+    </DataSource>
+    </MemberModules>
+    <Composition>
+    <Node ID="DS" />
+    </Composition>
+    </Composite>
+    </ModuleImplementation>
+    <OutputType>System!System.Discovery.Data</OutputType>
+    </DataSourceModuleType>
+    </ModuleTypes>
+</TypeDefinitions>
+<Monitoring>
+<Discoveries>
+    <Discovery ID="SampleA.Discovery.PowerShell.WithParam.Discovery" Target="SystemCenter!Microsoft.SystemCenter.ManagementServer" Enabled="false" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+    <Category>Discovery</Category>
+    <DiscoveryTypes>
+    <DiscoveryClass TypeID="SampleA.Discovery.PowerShell.WithParam.Class">
+    <Property PropertyID="Files"/>
+    </DiscoveryClass>
+    </DiscoveryTypes>
+    <DataSource ID="DS" TypeID="SampleA.Discovery.PowerShell.WithParam.Discovery.DataSourceModule">
+    <IntervalSeconds>60</IntervalSeconds>
+    <SyncTime></SyncTime>
+    <TimeoutSeconds>120</TimeoutSeconds>
+    <IgnoreFolder>foo</IgnoreFolder>                    <!-- something here -->
+    </DataSource>
+    </Discovery>
+</Discoveries>
+<Overrides>
+<DiscoveryPropertyOverride ID="Aliasfdb4a4bfc0d54d3e9d4a2df0538db5a2OverrideForDiscoverySampleADiscoveryPowerShellWithParamDiscoveryForContextMicrosoftSystemCenterHealthService" Context="SystemCenter!Microsoft.SystemCenter.HealthService" ContextInstance="629ad00e-4876-f272-8219-238dddca9612" Enforced="false" Discovery="SampleA.Discovery.PowerShell.WithParam.Discovery" Property="Enabled">
+  <Value>true</Value>
+</DiscoveryPropertyOverride>
+</Overrides>
+</Monitoring>
+<LanguagePacks>
+<LanguagePack ID="ENU" IsDefault="true">
+<DisplayStrings>
+<DisplayString ElementID="SampleA.Discovery.PowerShell.WithParam.Class">
+<Name>SampleA.Discovery.PowerShell.WithParam.Class</Name>
+</DisplayString>
+<DisplayString ElementID="SampleA.Discovery.PowerShell.WithParam.Class" SubElementID="Files">
+<Name>Files</Name>
+</DisplayString>
+<DisplayString ElementID="SampleA.Discovery.PowerShell.WithParam.Discovery">
+<Name>SampleA.Discovery.PowerShell.WithParam.Discovery</Name>
+</DisplayString>
+</DisplayStrings>
+</LanguagePack>
+</LanguagePacks>
+</ManagementPack>  

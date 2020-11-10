@@ -1,0 +1,110 @@
+<ManagementPack xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.1">
+   <Manifest>
+      <Identity>
+         <ID>Sample.System.OLEDBProbe.Module</ID>
+         <Version>1.0.0.10</Version>
+      </Identity>
+      <Name>Sample.System.OLEDBProbe.Module</Name>
+      <References>
+         <Reference Alias="System">
+            <ID>System.Library</ID>
+            <Version>7.5.8501.0</Version>
+            <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+         </Reference>
+         <Reference Alias="SCLib">
+            <ID>Microsoft.SystemCenter.Library</ID>
+            <Version>7.0.8437.0</Version>
+            <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+         </Reference>
+         <Reference Alias="SHLib">
+            <ID>System.Health.Library</ID>
+            <Version>7.0.8437.0</Version>
+            <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+         </Reference>
+		 <Reference Alias="WindowSystem">
+            <ID>Microsoft.Windows.Library</ID>
+            <Version>7.5.8501.0</Version>
+            <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+         </Reference>
+	  </References>
+   </Manifest>
+   <TypeDefinitions>
+	<SecureReferences>
+		<SecureReference ID="Sample.SQL.Probe.RunAsProfile" Accessibility="Public" Context="System!System.Entity" />
+	</SecureReferences>
+      <ModuleTypes>
+		<DataSourceModuleType ID="Microsoft.Samples.OleDbGetErrorDS" Accessibility="Internal" RunAs="Sample.SQL.Probe.RunAsProfile" Batching="false">  
+		  <Configuration />  
+		  <ModuleImplementation Isolation="Any">  
+			<Composite>  
+			  <MemberModules>  
+				<DataSource ID="Scheduler" TypeID="System!System.Scheduler">  
+				  <Scheduler>  
+					<SimpleReccuringSchedule>  
+					  <Interval>60</Interval>  
+					  <SyncTime />  
+					</SimpleReccuringSchedule>  
+					<ExcludeDates />  
+				  </Scheduler>  
+				</DataSource>  
+				<ProbeAction ID="OleDb" TypeID="System!System.OleDbProbe">  
+				  <ConnectionString>Provider=SQLOLEDB;Server=DESSQLAGLPR12\SQL_01;Database=OperationsManager;Integrated Security=SSPI</ConnectionString>
+				  <Query>SELECT COUNT(AgentPendingActionId) as AgentCount from AgentPendingAction</Query>  
+				  <OneRowPerItem>true</OneRowPerItem>  
+				</ProbeAction>  
+			  </MemberModules>  
+			  <Composition>  
+				<Node ID="OleDb">  
+				  <Node ID="Scheduler" />  
+				</Node>  
+			  </Composition>  
+			</Composite>  
+		  </ModuleImplementation>  
+		  <OutputType>System!System.OleDbData</OutputType>  
+		</DataSourceModuleType>  
+      </ModuleTypes>
+   </TypeDefinitions>
+   <Monitoring>
+	<Rules>
+		<Rule ID="Microsoft.Samples.OleDbRuleGenerateAlertOnError" Enabled="true" Target="SCLib!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">  
+		<Category>Alert</Category>  
+		<DataSources>  
+		<DataSource ID="DS" TypeID="Microsoft.Samples.OleDbGetErrorDS" />  
+		</DataSources>  
+		<WriteActions>  
+		<WriteAction ID="Alert" RunAs="Sample.SQL.Probe.RunAsProfile" TypeID="SHLib!System.Health.GenerateAlert">  
+			<Priority>0</Priority>
+			<Severity>0</Severity>
+			<AlertMessageId>$MPElement[Name="Microsoft.Samples.OleDbRuleGenerateAlertOnError.AlertMessage"]$</AlertMessageId>
+		</WriteAction>  
+		</WriteActions>  
+		</Rule>  
+	</Rules>
+   </Monitoring>
+   <Presentation>
+      <StringResources>
+		<StringResource ID="Microsoft.Samples.OleDbRuleGenerateAlertOnError.AlertMessage" />
+      </StringResources>
+   </Presentation>
+   <LanguagePacks>
+      <LanguagePack ID="ENU" IsDefault="false">
+         <DisplayStrings>
+			<DisplayString ElementID="Sample.System.OLEDBProbe.Module">
+			<Name>Sample.System.OLEDBProbe.Module</Name>
+			<Description />
+			</DisplayString>
+			<DisplayString ElementID="Sample.SQL.Probe.RunAsProfile">
+			<Name>Sample.SQL.Probe.RunAsProfile</Name>
+			</DisplayString>
+			<DisplayString ElementID="Microsoft.Samples.OleDbRuleGenerateAlertOnError">
+			<Name>Microsoft.Samples.OleDbRuleGenerateAlertOnError</Name>
+			<Description />
+			</DisplayString>
+			<DisplayString ElementID="Microsoft.Samples.OleDbRuleGenerateAlertOnError.AlertMessage">
+			<Name>Pending Agents</Name>
+			<Description>There are pending agents. MP version 1.0.0.10.</Description>
+			</DisplayString>
+         </DisplayStrings>
+      </LanguagePack>
+   </LanguagePacks>
+</ManagementPack>
