@@ -3,7 +3,7 @@
 Creates a VM in Azure.
 
 .DESCRIPTION
-Make sure you use correct params.
+Make sure you use correct params. Networking needs to be setup in the resource group.
 
 .PARAMETER VmName
 This is the server name.
