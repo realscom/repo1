@@ -1,0 +1,257 @@
+﻿<ManagementPack ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<Manifest>
+		<Identity>
+			<ID>Sample.Rule.Timed.PShell.Script</ID>
+			<Version>1.0.0.1</Version>
+		</Identity>
+		<Name>Sample.Rule.Timed.PShell.Script</Name>
+		<References>
+			<Reference Alias="SystemCenter">
+				<ID>Microsoft.SystemCenter.Library</ID>
+				<Version>7.0.8433.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+			<Reference Alias="Windows">
+				<ID>Microsoft.Windows.Library</ID>
+				<Version>7.5.8501.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+			<Reference Alias="System">
+				<ID>System.Library</ID>
+				<Version>7.5.8501.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+			<Reference Alias="Health">
+				<ID>System.Health.Library</ID>
+				<Version>7.0.8433.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+			<Reference Alias="SCDW">
+				<ID>Microsoft.SystemCenter.DataWarehouse.Library</ID>
+				<Version>7.1.10226.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+			<Reference Alias="Performance">
+				<ID>System.Performance.Library</ID>
+				<Version>7.0.8433.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+		</References>
+	</Manifest>
+	<TypeDefinitions>
+		<SecureReferences>
+			<SecureReference ID="Sample.RunAsProfile.LogEvent" Accessibility="Public" Context="System!System.Entity" />
+		</SecureReferences>
+	</TypeDefinitions>
+	<Monitoring>
+		<Rules>
+			<Rule ID="Sample.Rule.Timed.PShell.Script.LogEvent" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="false" Remotable="true" Priority="Normal" DiscardLevel="100">
+				<Category>Maintenance</Category>
+				<DataSources>
+					<DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+						<Scheduler>
+							<SimpleReccuringSchedule>
+								<Interval Unit="Minutes">5</Interval>
+							</SimpleReccuringSchedule>
+							<ExcludeDates />
+						</Scheduler>
+					</DataSource>
+				</DataSources>
+				<WriteActions>
+					<WriteAction ID="ExecuteScript" RunAs="Sample.RunAsProfile.LogEvent" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagWriteAction">
+						<ScriptName>LogEvent.ps1</ScriptName>
+						<ScriptBody>
+$Healthy = 2625
+$Unhealthy = 2626
+$Message = "Rule Name: Company.OpsMgr.Rule.BackupUnsealedMP`r"
+$Log = "Operations Manager"
+$Source = "Health Service Script"
+$Warning = "Warning"
+$Information = "Information"
+$Fqdn = [System.Net.Dns]::GetHostByName(($env:computerName))
+$Time = Get-Date -Format g
+$Message = $Message + "Management Pack: Company.OpsMgr 1.0.0.8`r"
+$Message = $Message + "Start Time: $Time`r"
+try
+{
+	$ErrorActionPreference = 'Stop'
+	$Stage = "Load OpsMgr Module:"
+	Import-Module OperationsManager
+	$Message = $Message + "Load OpsMgr Module: Ok`r"
+	$Stage = "Connect to " + $Fqdn.HostName + ": " 
+	New-SCOMManagementGroupConnection -ComputerName $Fqdn.HostName
+	$Message = $Message + "Connect to " + $Fqdn.HostName + ": Ok`r" 
+	$Stage = "Delete Old MPs: "
+	$BackupFolder = "D:\Backup\ManagementPacks\Export"
+	Remove-Item -Path "$BackupFolder\*" -Force -Recurse	
+	$Message = $Message + "Delete Old MPs: Ok`r"
+	$Stage = "Backup MPs:"
+	$MPs = Get-SCOMManagementPack | where {$_.Sealed -eq $False}
+	foreach ($MP in $MPs)
+	{
+		$MPCount = $MPCount+1
+		Export-SCOMManagementPack -ManagementPack:$MP -Path:$BackupFolder
+	}
+	$Time = Get-Date -Format g
+	If ($MPs.count -eq $MPCount)
+	{
+		$Message = $Message + "Backup MPs: $MPCount downloaded/" + $MPs.count + " in SCOM`rFinish Time: $Time`r"
+	}
+	else
+	{
+		$Message = $Message + $Stage + " $MPCount downloaded/" + $MPs.count + " in SCOM`rFinish Time: $Time`r"
+		Write-EventLog -LogName $Log -Source $Source -EventId $Unhealthy -EntryType $Warning -Message $Message -Category 0
+		break
+	}
+	Write-EventLog -LogName $Log -Source $Source -EventId $Healthy -EntryType $Information -Message $Message -Category 0
+}
+catch
+{
+	$Time = Get-Date -Format g
+	$Message = $Message + $Stage + $error[0] + "`rFinish Time: $Time`r"
+	Write-EventLog -LogName $Log -Source $Source -EventId $Unhealthy -EntryType $Warning -Message $Message -Category 0
+}
+						</ScriptBody>
+						<TimeoutSeconds>60</TimeoutSeconds>
+					</WriteAction>
+				</WriteActions>
+			</Rule>
+		</Rules>
+		<Monitors>
+			<UnitMonitor ID="Sample.Monitor.TwoStateEvent.MyMonitor" Accessibility="Public" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" TypeID="Windows!Microsoft.Windows.2SingleEventLog2StateMonitorType" ConfirmDelivery="true">
+				<Category>Alert</Category>
+				<AlertSettings AlertMessage="Sample.Monitor.TwoStateEvent.MyMonitor.AlertMessage">
+					<AlertOnState>Warning</AlertOnState>
+					<AutoResolve>true</AutoResolve>
+					<AlertPriority>Low</AlertPriority>
+					<AlertSeverity>MatchMonitorHealth</AlertSeverity>
+					<AlertParameters>
+						<AlertParameter1>$Data/Context/EventDescription$</AlertParameter1>
+					</AlertParameters>
+				</AlertSettings>
+				<OperationalStates>
+					<OperationalState ID="Unhealthy" MonitorTypeStateID="FirstEventRaised" HealthState="Warning" />
+					<OperationalState ID="Healthy" MonitorTypeStateID="SecondEventRaised" HealthState="Success" />
+				</OperationalStates>
+				<Configuration>
+					<FirstComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</FirstComputerName>
+					<FirstLogName>Operations Manager</FirstLogName>
+					<FirstExpression>
+						<And>
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="UnsignedInteger">2626</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="String">PublisherName</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="String">Health Service Script</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="Integer">EventLevel</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="Integer">2</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</And>
+					</FirstExpression>
+					<SecondComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</SecondComputerName>
+					<SecondLogName>Operations Manager</SecondLogName>
+					<SecondExpression>
+						<And>
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="UnsignedInteger">2625</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="String">PublisherName</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="String">Health Service Script</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="Integer">EventLevel</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="Integer">4</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</And>
+					</SecondExpression>
+				</Configuration>
+			</UnitMonitor>
+		</Monitors>
+
+
+
+	</Monitoring>
+	<Presentation>
+		<StringResources>
+			<StringResource ID="Sample.Monitor.TwoStateEvent.MyMonitor.AlertMessage" />
+		</StringResources>
+	</Presentation>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="false">
+			<DisplayStrings>
+				<DisplayString ElementID="Sample.Rule.Timed.PShell.Script">
+					<Name>Sample.Rule.Timed.PShell.Script</Name>
+				</DisplayString>
+				<DisplayString ElementID="Sample.Rule.Timed.PShell.Script.LogEvent">
+					<Name>Sample Rule Timed PShell Script LogEvent</Name>
+				</DisplayString>
+				<DisplayString ElementID="Sample.RunAsProfile.LogEvent">
+					<Name>Sample Run As Profile LogEvent</Name>
+				</DisplayString>
+				<DisplayString ElementID="Sample.Monitor.TwoStateEvent.MyMonitor">
+					<Name>Sample Monitor Two State Event MyMonitor</Name>
+					<Description />
+				</DisplayString>
+				<DisplayString ElementID="Sample.Monitor.TwoStateEvent.MyMonitor.AlertMessage">
+					<Name>Sample Monitor Two State Event Alert</Name>
+					<Description>{0}</Description>
+				</DisplayString>
+				<DisplayString ElementID="Sample.Monitor.TwoStateEvent.MyMonitor" SubElementID="Unhealthy">
+					<Name>First Event Raised</Name>
+				</DisplayString>
+				<DisplayString ElementID="Sample.Monitor.TwoStateEvent.MyMonitor" SubElementID="Healthy">
+					<Name>Second Event Raised</Name>
+				</DisplayString>
+
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPack>

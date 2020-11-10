@@ -1,0 +1,2255 @@
+<ManagementPack ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<Manifest>
+<Identity>
+<ID>TestH.SCOM.Inventory.Monitoring</ID>
+<Version>1.0.0.41</Version>
+</Identity>
+<Name>TestH.SCOM.Inventory.Monitoring</Name>
+<References>
+<Reference Alias="Windows">
+<ID>Microsoft.Windows.Library</ID>
+<Version>7.5.8501.0</Version>
+<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+</Reference>
+<Reference Alias="System">
+<ID>System.Library</ID>
+<Version>7.5.8501.0</Version>
+<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+</Reference>
+<Reference Alias="SystemCenter">
+<ID>Microsoft.SystemCenter.Library</ID>
+<Version>7.0.8433.0</Version>
+<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+</Reference>
+<Reference Alias="Health">
+<ID>System.Health.Library</ID>
+<Version>7.0.8433.0</Version>
+<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+</Reference>
+</References>
+</Manifest>
+<TypeDefinitions>
+<EntityTypes>
+<ClassTypes>
+
+<!--**************************************** AGENT SECTION ****************************************-->
+<ClassType ID="TestH.SCOM.Inventory.Windows.Class" Accessibility="Public" Abstract="false" Base="Windows!Microsoft.Windows.LocalApplication" Hosted="true" Singleton="false" Extension="false">
+<Property ID="OperatingSystem" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="Product" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="AgentInstallDirectory" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="AgentURInstallDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="AgentVersion" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="AgentMGCount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="AgentMGFailovers" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="HealthServiceAccount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="HealthServiceStartMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="CertificateExpiryDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ADIntegration" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="APMInstalled" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="APMServiceAccount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="APMServiceStartMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ACSForwarderServiceAccount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ACSForwarderServiceStartMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="TLS12" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="LAWorkspaceCount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="LAWorkspaces" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="LAProxyUrl" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="LAProxyUsername" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ComputerType" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="MgmtServerInstallDirectory" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="MgmtServerURInstallDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="MgmtServerVersion" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ConfigServiceAccount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ConfigServiceStartMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="DataAccessServiceAccount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="DataAccessServiceStartMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="OpsDbName" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="OpsDbServer" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="DWDbName" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="DwDbServer" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ACSCollector" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ACSCollectorServiceAccount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ACSCollectorServiceStartMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ACSCollectorURInstallDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ACSCollectorVersion" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="RMS" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="GatewayServerInstallDirectory" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="GatewayServerURInstallDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="GatewayServerVersion" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="GatewayMGCount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="GatewayMGFailovers" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="WebConsoleInstallDirectory" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="WebConsoleURInstallDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="WebConsoleVersion" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="AuthenticationMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="DefaultServer" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="WebConsoleUrl" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ApmAdvisorUrl" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ApmDiagnosticsUrl" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerInstallDirectory" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerURInstallDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerVersion" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerDwDbServer" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerDWDBName" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerUrl" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="SRSInstance" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerServiceAccount" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ReportServerServiceStartMode" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ConsoleVersion" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ConsoleInstallDirectory" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+<Property ID="ConsoleURInstallDate" Type="string" AutoIncrement="false" Key="false" CaseSensitive="false" MaxLength="256" MinLength="0" Required="false" Scale="0" />
+</ClassType>
+</ClassTypes>
+</EntityTypes>
+<ModuleTypes>
+
+<!--**************************************** WINDOWS DISCOVERY DATA SOURCE MODULE SECTION ****************************************-->
+<DataSourceModuleType ID="TestH.SCOM.Inventory.Discovery.WindowsDataSource" Accessibility="Internal" Batching="false">
+<Configuration>
+<xsd:element name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<xsd:element name="SyncTime" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<xsd:element name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<xsd:element name="IgnoreAgentMgmtGroups" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<xsd:element name="IgnoreAgentVersion" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<xsd:element name="IgnoreGatewayMgmtGroups" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<xsd:element name="IgnoreReportServerVersion" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+</Configuration>
+<OverrideableParameters>
+<OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+<OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string" />
+<OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+<OverrideableParameter ID="IgnoreAgentMgmtGroups" Selector="$Config/IgnoreAgentMgmtGroups$" ParameterType="string" />
+<OverrideableParameter ID="IgnoreAgentVersion" Selector="$Config/IgnoreAgentVersion$" ParameterType="bool" />
+<OverrideableParameter ID="IgnoreGatewayMgmtGroups" Selector="$Config/IgnoreGatewayMgmtGroups$" ParameterType="string" />
+<OverrideableParameter ID="IgnoreReportServerVersion" Selector="$Config/IgnoreReportServerVersion$" ParameterType="bool" />
+</OverrideableParameters>
+<ModuleImplementation Isolation="Any">
+<Composite>
+<MemberModules>
+<DataSource ID="DS" TypeID="Windows!Microsoft.Windows.TimedPowerShell.DiscoveryProvider">
+<IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+<SyncTime>$Config/SyncTime$</SyncTime>
+<ScriptName>TestH.SCOM.Inventory.Discovery.WindowsDataSource.ps1</ScriptName>
+<ScriptBody><![CDATA[
+# Start Windows discovery
+Param ($SourceId,$ManagedEntityId,$ComputerName,$IgnoreAgentMgmtGroups,$IgnoreAgentVersion,$IgnoreGatewayMgmtGroups,$IgnoreReportServerVersion) # Need this line to pass params in properly.
+
+<#**************************************** FUNCTION: LogAndQuit ****************************************#>
+Function LogAndQuit {
+If ($Script:CountError -gt 0) {
+$EventId=17611
+$EventLevel=2
+}
+Else {
+$Script:CountError=0 # If no errors set this value so it appears in the event.
+$EventId=17610
+$EventLevel=0
+}
+# Use MOMScriptAPI.LogScriptEvent method to log events because Write-EventLog doesn't work on new OSs.
+$ObjMomApi.LogScriptEvent("TestH.SCOMWindowsInventory.ps1", $EventId, $EventLevel, "Windows inventory discovery script executed.`nWorkflow Name: TestH.SCOM.Inventory.Windows.ScriptDiscovery`nManagement Pack: TestH.SCOM.Inventory.Monitoring (1.0.0.41)`nPowerShell Version: $PSVersion`nIssues Detected: $Script:CountError`n$Script:Message") # The $Error here will dump any errors into the event, don't know if we need it yet.
+}
+
+<#**************************************** FUNCTION: CheckNull ****************************************#>
+Function CheckNull ($PassedInParam) {
+If ([string]::IsNullOrEmpty($PassedInParam)) {
+$Script:IsItNull=$True # Update this so we can make decisions.
+If ($ValueToCheck -eq "LAProxyUrl") { # This If statement allows us to do custom things when an empty value is not considered an error.
+$Script:LAProxyUrl="n/a"
+}
+ElseIf ($ValueToCheck -eq "LAProxyUsername") {
+$Script:LAProxyUsername="n/a"
+}
+Else {
+$Script:CountError+=1
+$Script:Message+="[CODE_SECTION_$CodeSection] $ValueToCheck is empty. Error output: ($Error).`n"
+}
+}
+Else {
+$Script:IsItNull=$False # Update this so we can make decisions.
+}
+}
+
+<#**************************************** FUNCTION: TerminatingError ****************************************#>
+Function TerminatingError
+{
+$script:CountError+=1
+$script:Message+="[CODE_SECTION_$CodeSection] A terminating error occurred. Error output: (" + $_.Exception.Message + ").`n"
+LogAndQuit
+}
+
+<#**************************************** FUNCTION: GetServiceInfo ****************************************#>
+Function GetServiceInfo ($PassedInParam) {
+$Script:ServiceAccount=$null; $Script:ServiceStartMode=$null # Reset these.
+$Script:ServiceAccount=(Get-ItemProperty $PassedInParam).ObjectName
+$ValueToCheck="ServiceAccount"; CheckNull $ServiceAccount # Expect value.
+$Script:ServiceStartMode=(Get-ItemProperty $PassedInParam).Start
+$ValueToCheck="ServiceStartMode"; CheckNull $Script:ServiceStartMode # Expect value.
+If ($Script:IsItNull -ne $True) { # 
+Switch ($Script:ServiceStartMode) {
+"2" {$Script:ServiceStartMode="Automatic"; BREAK}
+"3" {$Script:ServiceStartMode="Manual"; BREAK}
+"4" {$Script:ServiceStartMode="Disabled"; BREAK}
+}
+}
+}
+
+<#**************************************** FUNCTION: CheckFile ****************************************#>
+<#
+If you add "NoAlert" as second parameter it won't generate alert.
+#>
+Function CheckFile ($Script:PassedInParam, $Script:PassedInParam2) {
+If(Test-Path $script:PassedInParam) {
+$Script:FileExists=$True # Update this so we can make decisions.
+$script:GetFile=Get-Item $script:PassedInParam
+$script:FileModifedRaw=$script:GetFile.LastWriteTime
+$script:FileModifed=$script:GetFile.LastWriteTime.ToString("yyyy-MM-dd")
+$script:FileVersion=$script:GetFile.VersionInfo.FileVersion
+}
+Else {
+$Script:FileExists=$False # Update this so we can make decisions.
+If (-Not($Script:PassedInParam2 -eq "NoAlert")) {
+$Script:CountError+=1
+$Script:Message+="[CODE_SECTION_$CodeSection] File not found: $PassedInParam.`n"
+}}}
+
+<#**************************************** FUNCTION: GetWindowsInventory ****************************************#>
+Function GetWindowsInventory {
+$ErrorActionPreference="Continue"
+Try {
+<# FOR TESTING
+$SourceId='{00000000-0000-0000-0000-000000000000}'
+$ManagedEntityId='{00000000-0000-0000-0000-000000000000}'
+$ComputerName='agent.scomtest.local'
+$IgnoreAgentMgmtGroups="" # Leave blank until you specifically want to test it.
+$IgnoreAgentVersion="true"
+$IgnoreGatewayMgmtGroups="" # Leave blank until you specifically want to test it.
+$IgnoreReportServerVersion="False"
+#>
+
+<# CODE_SECTION_1
+Load required objects.
+#>
+$CodeSection="1"
+$ObjMomApi=New-Object -comObject 'MOM.ScriptAPI' # MOMScriptAPI object.
+$DiscoveryData=$ObjMomApi.CreateDiscoveryData(0, $SourceId, $ManagedEntityId) # Create MOMDiscoveryData object to store discovery data.
+$ObjAgentConfig=New-Object -ComObject "AgentConfigManager.MgmtSvcCfg" # Agent config API object.
+
+<# CODE_SECTION_2.
+Get powershell version.
+This is shown in events to assist troubleshooting if powershell doesn't play nice.
+#>
+$CodeSection="2"
+$PSVersion=$PSVersionTable.PSVersion
+[string]$PSMajor=$PSVersion.Major
+[string]$PSMinor=$PSVersion.Minor
+$PSVersion=$PSMajor + "." + $PSMinor
+
+<# CODE_SECTION_3
+Set common variables.
+#>
+$CodeSection="3"
+$ComputerFqdn=([System.Net.Dns]::GetHostByName(($env:computerName))).Hostname
+$ValueToCheck="ComputerFqdn"; CheckNull $ComputerFqdn # Expect value.
+$WinDir=(Get-ChildItem Env:windir).Value
+$ValueToCheck="WinDir"; CheckNull $WinDir # Expect value.
+
+<# CODE_SECTION_4
+Get operating system.
+#>
+$CodeSection="4"
+$OperatingSystem=(Get-CimInstance -ClassName Win32_OperatingSystem).Caption
+$ValueToCheck="OperatingSystem"; CheckNull $OperatingSystem # Expect value.
+
+<# CODE_SECTION_5
+Determine SCOM role of the computer.
+#>
+$CodeSection="5"
+$SetupRegKey="HKLM:\SOFTWARE\Microsoft\Microsoft Operations Manager\3.0\Setup"
+$Product=(Get-ItemProperty $SetupRegKey).Product # No null check. Script execution means it's present.
+
+<#**************************************** AGENT SECTION ****************************************#>
+
+<# CODE_SECTION_6
+Get agent install directory.
+#>
+$CodeSection="6"
+If((Get-ItemProperty $SetupRegKey).AgentVersion) { # No null check. Script execution means it's present.
+$AgentInstallDirectory=(Get-ItemProperty $SetupRegKey).InstallDirectory.TrimEnd("\") # No null check. Script execution means it's present.
+
+<# CODE_SECTION_7
+Get agent UR info.
+#>
+$CodeSection="7"
+$AgentURFile="$AgentInstallDirectory\Tools\TMF\OMAgentTraceTMFVer.Dll" # Best file for UR info.
+CheckFile $AgentURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True) {
+$AgentURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ValueToCheck="AgentURInstallDate"; CheckNull $AgentURInstallDate # Expect value.
+$AgentVersion=$Script:FileVersion
+$ValueToCheck="AgentVersion"; CheckNull $AgentVersion # Expect value.
+If ($Script:IsItNull -ne $True) {
+Switch($AgentVersion) {
+# SCOM 2012 R2
+"7.1.10184.0" {$AgentVersion="7.1.10184.0 (2012 R2 RTM)"; BREAK}
+"7.1.10195.0" {$AgentVersion="7.1.10195.0 (2012 R2 UR2)"; BREAK}
+"7.1.10204.0" {$AgentVersion="7.1.10204.0 (2012 R2 UR3)"; BREAK}
+"7.1.10211.0" {$AgentVersion="7.1.10211.0 (2012 R2 UR4)"; BREAK}
+"7.1.10213.0" {$AgentVersion="7.1.10213.0 (2012 R2 UR5)"; BREAK}
+"7.1.10218.0" {$AgentVersion="7.1.10218.0 (2012 R2 UR6)"; BREAK}
+"7.1.10229.0" {$AgentVersion="7.1.10229.0 (2012 R2 UR7)"; BREAK}
+"7.1.10241.0" {$AgentVersion="7.1.10241.0 (2012 R2 UR8)"; BREAK}
+"7.1.10268.0" {$AgentVersion="7.1.10268.0 (2012 R2 UR9)"; BREAK}
+"7.1.10285.0" {$AgentVersion="7.1.10285.0 (2012 R2 UR11)"; BREAK}
+"7.1.10292.0" {$AgentVersion="7.1.10292.0 (2012 R2 UR12)"; BREAK}
+"7.1.10302.0" {$AgentVersion="7.1.10302.0 (2012 R2 UR13)"; BREAK}
+"7.1.10305.0" {$AgentVersion="7.1.10305.0 (2012 R2 UR14)"; BREAK}
+# SCOM 2016
+"8.0.10918.0" {$AgentVersion="8.0.10918.0 (2016 RTM)"; BREAK}
+"8.0.10931.0" {$AgentVersion="8.0.10931.0 (2016 UR1)"; BREAK}
+"8.0.10949.0" {$AgentVersion="8.0.10949.0 (2016 UR2)"; BREAK}
+"8.0.10970.0" {$AgentVersion="8.0.10970.0 (2016 UR3)"; BREAK}
+"8.0.10977.0" {$AgentVersion="8.0.10977.0 (2016 UR4)"; BREAK}
+"8.0.10990.0" {$AgentVersion="8.0.10990.0 (2016 UR5)"; BREAK}
+"8.0.11004.0" {$AgentVersion="8.0.11004.0 (2016 UR6)"; BREAK}
+"8.0.11025.0" {$AgentVersion="8.0.11025.0 (2016 UR7)"; BREAK}
+"8.0.11037.0" {$AgentVersion="8.0.11037.0 (2016 UR8)"; BREAK}
+"8.0.11049.0" {$AgentVersion="8.0.11049.0 (2016 UR9)"; BREAK}
+# SCOM 1801
+"8.0.13053.0" {$AgentVersion="8.0.13053.0 (1801)"; BREAK}
+"8.0.13067.0" {$AgentVersion="8.0.13067.0 (1807)"; BREAK}
+# SCOM 2019
+"10.19.10014.0" {$AgentVersion="10.19.10014.0 (2019 RTM)"; BREAK}
+"10.19.10140.0" {$AgentVersion="10.19.10140.0 (2019 UR1)"; BREAK}
+"10.19.10153.0" {$AgentVersion="10.19.10153.0 (2019 UR2)"; BREAK}
+Default {
+If ($IgnoreAgentVersion -eq $True) { # If there's an override append "(OverrideIgnore)" to the version.
+$AgentVersion="$AgentVersion (OverrideIgnore)"
+}
+Else {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown agent version: $AgentVersion.`n"; # Catch unknown versions.
+$Script:CountError+=1
+$AgentVersion="$AgentVersion (Unknown)"
+}}}}}
+
+<# CODE_SECTION_8
+Get agent management groups.
+#>
+$CodeSection="8"
+$IgnoreAgentMgmtGroups=$IgnoreAgentMgmtGroups.Split(",") # Split into array so we can check each item.
+$AgentMGFolders=Get-ChildItem -Directory -Path "$AgentInstallDirectory\Health Service State\Connector Configuration Cache" # Get folders only. Script is running so don't check for existence.
+$AgentMGCount=($AgentMGFolders | Measure-Object).Count
+$AgentMGFolders | ForEach-Object {
+$MGName=$_.Name
+$AgentConfigFile="$AgentInstallDirectory\Health Service State\Connector Configuration Cache\$MGName\OpsMgrConnector.Config.xml" # Script is running so don't check for existence.
+If (Test-Path -Path $AgentConfigFile) {
+$XPath="Message/State/Parents/Added/Item" # Set XPath so we can find primary/failover server info.
+$GetPrimaryXml=Select-Xml -Path $AgentConfigFile -XPath $XPath | Select-Object -ExpandProperty node | Where-Object {$_.IsPrimary -eq "True"}
+$Primary=$GetPrimaryXml.AuthenticationName
+$MGOverride=$IgnoreAgentMgmtGroups -contains $MGName
+If ($MGOverride -eq $True) { # If overriden loop to next.
+$AgentMGFailovers+="MGName=" + $MGName + ",Primary=$Primary,Failovers=OverrideIgnore;"
+} Else { # Get failovers.
+$Failovers=$null # Reset these.
+$GetFailoverXml=Select-Xml -Path $AgentConfigFile -XPath $XPath | Select-Object -ExpandProperty node | Where-Object {$_.IsPrimary -eq "False"} | Sort-Object AuthenticationName # array of failovers.
+If (($GetFailoverXml | Measure-Object).Count -gt 0) { # If more than one failovers update $Failovers array.
+$GetFailoverXml | ForEach-Object {
+$Failovers+=$_.AuthenticationName + ","
+}
+$Failovers=$Failovers.TrimEnd(",")
+$AgentMGFailovers+="MGName=" + $MGName + ",Primary=$Primary,Failovers=$Failovers;" # Update $AgentMGFailovers array.
+} Else { # If no failovers AND no override then generate warning.
+$AgentMGFailovers+="MGName=" + $MGName + ",Primary=$Primary,Failovers=;" # Update $AgentMGFailovers array.
+$Script:Message+="[CODE_SECTION_$CodeSection] Agent in management group $MGName has no failover servers configured.`n"
+$Script:CountError+=1
+}
+}
+} Else {
+$Script:Message+="[CODE_SECTION_$CodeSection] Agent in management group $MGName has no OpsMgrConnector.Config.xml file.`n"
+$AgentMGFailovers+="MGName=$MGName,MissingConfigFile;" # Update $AgentMGFailovers array.
+$Script:CountError+=1
+}
+}
+$AgentMGFailovers=$AgentMGFailovers.TrimEnd(";")
+} Else {
+$AgentInstallDirectory="n/a"
+$AgentURInstallDate="n/a"
+$AgentVersion="n/a"
+$AgentMGFailovers="n/a"
+$AgentMGCount="n/a"
+}
+
+<#**************************************** COMMON SECTION ****************************************#>
+
+<# CODE_SECTION_9
+Get HealthService account and start mode.
+#>
+$CodeSection="9"
+$HealthServiceRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\HealthService"
+GetServiceInfo $HealthServiceRegKey
+$Script:HealthServiceAccount=$Script:ServiceAccount
+$Script:HealthServiceStartMode=$Script:ServiceStartMode
+
+<# CODE_SECTION_10
+Get certificate.
+#>
+$CodeSection="10"
+$CertRegKey="HKLM:\SOFTWARE\Microsoft\Microsoft Operations Manager\3.0\Machine Settings"
+If ((Get-ItemProperty $CertRegKey).ChannelCertificateHash) {
+$Hash=(Get-ItemProperty $CertRegKey).ChannelCertificateHash
+$Thumbprint=Get-ChildItem -Path cert:\LocalMachine\My | Where-Object {$_.Thumbprint -eq $Hash}
+$CertificateExpiryDate=$Thumbprint.NotAfter.ToString("yyyy-MM-dd")
+$ValueToCheck="CertificateExpiryDate"; CheckNull $CertificateExpiryDate # Expect value.
+}
+Else {
+$CertificateExpiryDate="n/a"
+}
+
+<# CODE_SECTION_11
+Get AD Integration setting.
+#>
+$CodeSection="11"
+$ADIntegRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\HealthService\Parameters\ConnectorManager"
+$ADIntegration=(Get-ItemProperty $ADIntegRegKey).EnableADIntegration
+$ValueToCheck="ADIntegration"; CheckNull $ADIntegration # Expect value.
+If ($Script:IsItNull -ne $True) {
+Switch ($ADIntegration) {
+"0" {$ADIntegration="Disabled"; BREAK}
+"1" {$ADIntegration="Enabled"; BREAK}
+Default {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown AD Integration value: $ADIntegration`n";
+$Script:CountError+=1
+}
+}}
+
+<# CODE_SECTION_12
+Get APM service StartMode type.
+This may not be installed so don't alert if not found.
+#>
+$CodeSection="12"
+$APMServiceRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\System Center Management APM"
+If (Test-Path $APMServiceRegKey) {
+$APMInstalled="Yes"
+GetServiceInfo $APMServiceRegKey
+$Script:APMServiceAccount=$Script:ServiceAccount
+$Script:APMServiceStartMode=$Script:ServiceStartMode
+}
+Else {
+$APMInstalled="No"
+$APMServiceAccount="n/a"
+$APMServiceStartMode="n/a"
+}
+
+<# CODE_SECTION_13
+Get ACS forwarder.
+This should be installed on all ms, gw, agent. Alert if not found.
+#>
+$CodeSection="13"
+$ACSForwarderServiceRegKey="HKLM:SYSTEM\CurrentControlSet\Services\AdtAgent"
+GetServiceInfo $ACSForwarderServiceRegKey
+$Script:ACSForwarderServiceAccount=$Script:ServiceAccount
+$Script:ACSForwarderServiceStartMode=$Script:ServiceStartMode
+
+<# CODE_SECTION_14
+Get TLS1.2 registry settings.
+This checks if the server has been explicitly configured to communicate with only TLS1.2 (i.e. all other protocols disabled).
+#>
+$CodeSection="14"
+$Count=0
+$ArrayTLS12NETEnabled="HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319","HKLM:\SOFTWARE\WOW6432Node\Microsoft\.NETFramework\v4.0.30319"
+$ArrayTLS12NETEnabled | ForEach-Object {
+If (Test-Path -Path $_) {
+$TLS12NETEnabled=(Get-ItemProperty $_).SchUseStrongCrypto
+If ($TLS12NETEnabled -eq 1) {
+$Count+=1
+}
+}
+}
+$TLS12OSRegKey="HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2"
+$ArrayTLS12OS="Client","Server"
+$ArrayTLS12OS | ForEach-Object {
+If (Test-Path -Path "$TLS12OSRegKey\$_") {
+$TLS12OSEnabled=(Get-ItemProperty "$TLS12OSRegKey\$_").Enabled
+$TLS12OSDisabledByDefault=(Get-ItemProperty "$TLS12OSRegKey\$_").DisabledByDefault
+If ($TLS12OSEnabled -eq 1 -and $TLS12OSDisabledByDefault -eq 0) {
+$Count+=1
+}
+}
+}
+If ($Count -eq 0) {
+$TLS12="NoConfig"
+}
+ElseIf ($Count -eq 4) {
+$TLS12="CorrectConfig"
+}
+Else {
+$TLS12="IncompleteConfig"
+}
+
+<# CODE_SECTION_15
+Get Log Analytics workspaces.
+Using the AgentConfigManager.MgmtSvcCfg object isn't reliable for collecting LA workspace info so we use the registry instead.
+#>
+$CodeSection="15"
+$LAWorkspaceRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\HealthService\Parameters\Service Connector Services"
+If (Test-Path $LAWorkspaceRegKey) {
+$BindLAWorkspaceRegKey=Get-Item $LAWorkspaceRegKey # Bind to the reg key so we can get properties.
+$LAWorkspaceCount=($BindLAWorkspaceRegKey).SubKeyCount # This is the $LAWorkspaceCount property.
+If ($LAWorkspaceCount -gt 0) { # If 0 workspaces set $LAWorkspaces to "None" otherwise do below...
+$ArrayLAWorkspaces=$BindLAWorkspaceRegKey.GetSubKeyNames() # Get each subkey and create an array in case there's more than 1.
+$ArrayLAWorkspaces | ForEach-Object { # Cycle through each item in the array.
+$LAWorkspaceId=$_.Substring(16) # Remove "Log Analytics - " from the key name so we just have the workspace id.
+$LAWorkspaceType=(Get-ItemProperty -Path $LAWorkspaceRegKey\$_)."Azure Cloud Type"
+$ValueToCheck="LAWorkspaceType"; CheckNull $LAWorkspaceType
+If ($Script:IsItNull -ne $True) { # 
+Switch ($LAWorkspaceType) {
+"0" {$LAWorkspaceType="Azure Commercial"; BREAK}
+"1" {$LAWorkspaceType="Azure US Government"; BREAK}
+"2" {$LAWorkspaceType="Azure China"; BREAK}
+"3" {$LAWorkspaceType="Azure US Nat"; BREAK}
+"4" {$LAWorkspaceType="Azure US Sec"; BREAK}
+Default {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown log analytics workspace type: $LAWorkspaceType`n";
+$Script:CountError+=1
+}
+}
+}
+$LAWorkspaces+="Type=$LAWorkspaceType,WorkSpaceId=$LAWorkspaceId;"
+}
+$LAWorkspaces=$LAWorkspaces.TrimEnd(";")
+}
+Else {
+$LAWorkspaceCount="0"
+$LAWorkspaces="n/a"
+}
+}
+Else {
+$LAWorkspaceCount="0"
+$LAWorkspaces="n/a"
+}
+
+<# CODE_SECTION_16
+Get Log Analytics proxy server used to connect to Log Analytics.
+If this is empty it's not an error but we need to add custom discovery data so need a null check. There is a reference in the CheckNull function for this. It's not pretty but it let's us reuse code.
+#>
+$CodeSection="16"
+$Script:LAProxyUrl=$ObjAgentConfig.proxyUrl
+$ValueToCheck="LAProxyUrl"; CheckNull $Script:LAProxyUrl # Add custom discovery data
+
+<# CODE_SECTION_17
+Get Log Analytics account used to authenticate to the proxy server.
+If this is empty it's not an error but we need to add custom discovery data so need a null check. There is a reference in the CheckNull function for this. It's not pretty but it let's us reuse code.
+#>
+$CodeSection="17"
+$Script:LAProxyUsername=$ObjAgentConfig.proxyUsername
+$ValueToCheck="LAProxyUsername"; CheckNull $Script:LAProxyUsername # Expect value.
+
+<# CODE_SECTION_18
+Get computer type.
+#>
+$CodeSection="18"
+$ComputerType=(Get-CimInstance -ClassName Win32_ComputerSystem).Model
+$ValueToCheck="ComputerType"; CheckNull $ComputerType # Expect value.
+
+<#**************************************** MGMT SERVER SECTION ****************************************#>
+
+If((Get-ItemProperty $SetupRegKey).ServerVersion) {
+
+<# CODE_SECTION_19
+Get mgmt server install directory.
+#>
+$CodeSection="19"
+$MgmtServerInstallDirectory=(Get-ItemProperty $SetupRegKey).InstallDirectory.TrimEnd("\")
+$ValueToCheck="MgmtServerInstallDirectory"; CheckNull $MgmtServerInstallDirectory # Expect value.
+
+<# CODE_SECTION_20
+Get management server UR info.
+#>
+$CodeSection="20"
+$MgmtServerURFile="$MgmtServerInstallDirectory\Tools\TMF\OMTraceTMFVer.Dll" # Best file for UR info.
+CheckFile $MgmtServerURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True) {
+$MgmtServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ValueToCheck="MgmtServerURInstallDate"; CheckNull $MgmtServerURInstallDate # Expect value.
+$MgmtServerVersion=$Script:FileVersion
+$ValueToCheck="MgmtServerVersion"; CheckNull $MgmtServerVersion # Expect value.
+If ($Script:IsItNull -ne $True) { # 
+Switch($MgmtServerVersion) {
+# SCOM 2012 R2
+"7.1.10226.0" {$MgmtServerVersion="7.1.10226.0 (2012 R2 RTM)"; BREAK}
+"7.1.10226.1009" {$MgmtServerVersion="7.1.10226.1009 (2012 R2 UR1)"; BREAK}
+"7.1.10226.1015" {$MgmtServerVersion="7.1.10226.1015 (2012 R2 UR2)"; BREAK}
+"7.1.10226.1037" {$MgmtServerVersion="7.1.10226.1037 (2012 R2 UR3)"; BREAK}
+"7.1.10226.1046" {$MgmtServerVersion="7.1.10226.1046 (2012 R2 UR4)"; BREAK}
+"7.1.10226.1052" {$MgmtServerVersion="7.1.10226.1052 (2012 R2 UR5)"; BREAK}
+"7.1.10226.1064" {$MgmtServerVersion="7.1.10226.1064 (2012 R2 UR6)"; BREAK}
+"7.1.10226.1090" {$MgmtServerVersion="7.1.10226.1090 (2012 R2 UR7)"; BREAK}
+"7.1.10226.1118" {$MgmtServerVersion="7.1.10226.1118 (2012 R2 UR8)"; BREAK}
+"7.1.10226.1177" {$MgmtServerVersion="7.1.10226.1177 (2012 R2 UR9)"; BREAK}
+"7.1.10226.1239" {$MgmtServerVersion="7.1.10226.1239 (2012 R2 UR11)"; BREAK}
+"7.1.10226.1304" {$MgmtServerVersion="7.1.10226.1304 (2012 R2 UR12)"; BREAK}
+"7.1.10226.1360" {$MgmtServerVersion="7.1.10226.1360 (2012 R2 UR13)"; BREAK}
+"7.1.10226.1387" {$MgmtServerVersion="7.1.10226.1387 (2012 R2 UR14)"; BREAK}
+# SCOM 2016
+"7.2.11719.0" {$MgmtServerVersion="7.2.11719.0 (2016 RTM)"; BREAK}
+"7.2.11759.0" {$MgmtServerVersion="7.2.11759.0 (2016 UR1)"; BREAK}
+"7.2.11822.0" {$MgmtServerVersion="7.2.11822.0 (2016 UR2)"; BREAK}
+"7.2.11878.0" {$MgmtServerVersion="7.2.11878.0 (2016 UR3)"; BREAK}
+"7.2.11938.0" {$MgmtServerVersion="7.2.11938.0 (2016 UR4)"; BREAK}
+"7.2.12016.0" {$MgmtServerVersion="7.2.12016.0 (2016 UR5)"; BREAK}
+"7.2.12066.0" {$MgmtServerVersion="7.2.12066.0 (2016 UR6)"; BREAK}
+"7.2.12150.0" {$MgmtServerVersion="7.2.12150.0 (2016 UR7)"; BREAK}
+"7.2.12213.0" {$MgmtServerVersion="7.2.12213.0 (2016 UR8)"; BREAK}
+"7.2.12265.0" {$MgmtServerVersion="7.2.12265.0 (2016 UR9)"; BREAK}
+# SCOM 1801
+"7.3.13142.0" {$MgmtServerVersion="7.3.13142.0 (1801)"; BREAK}
+"7.3.13261.0" {$MgmtServerVersion="7.3.13261.0 (1807)"; BREAK}
+# SCOM 2019
+"10.19.10050.0" {$MgmtServerVersion="10.19.10050.0 (2019 RTM)"; BREAK}
+"10.19.10311.0" {$MgmtServerVersion="10.19.10311.0 (2019 UR1)"; BREAK}
+"10.19.10349.0" {$MgmtServerVersion="10.19.10349.0 (2019 UR1 Hotfix)"; BREAK}
+"10.19.10407.0" {$MgmtServerVersion="10.19.10407.0 (2019 UR2)"; BREAK}
+Default {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown management server version: $MgmtServerVersion.`n"; # Catch unknown versions.
+$Script:CountError+=1
+$MgmtServerVersion="$MgmtServerVersion (Unknown)"
+}}}}
+
+<# CODE_SECTION_21
+Get CSHostService account and start mode.
+#>
+$CodeSection="21"
+$ConfigServiceRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\cshost"
+GetServiceInfo $ConfigServiceRegKey
+$Script:ConfigServiceAccount=$Script:ServiceAccount
+$Script:ConfigServiceStartMode=$Script:ServiceStartMode
+
+<# CODE_SECTION_22
+Get OMSDKService account and start mode.
+#>
+$CodeSection="22"
+$DataAccessServiceRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\OMSDK"
+GetServiceInfo $DataAccessServiceRegKey
+$Script:DataAccessServiceAccount=$Script:ServiceAccount
+$Script:DataAccessServiceStartMode=$Script:ServiceStartMode
+
+<# CODE_SECTION_23
+Get ops db name.
+#>
+$CodeSection="23"
+$OpsDbName=(Get-ItemProperty $SetupRegKey).DatabaseName
+$ValueToCheck="OpsDbName"; CheckNull $OpsDbName # Expect value.
+
+<# CODE_SECTION_24
+Get ops db server name.
+#>
+$CodeSection="24"
+$OpsDbServer=(Get-ItemProperty $SetupRegKey).DatabaseServerName
+$ValueToCheck="OpsDbServer"; CheckNull $OpsDbServer # Expect value.
+
+<# CODE_SECTION_25
+Get data warehouse db name.
+#>
+$CodeSection="25"
+$DWDbName=(Get-ItemProperty $SetupRegKey).DataWarehouseDBName
+$ValueToCheck="DWDbName"; CheckNull $DWDbName # Expect value.
+
+<# CODE_SECTION_26
+Get data warehouse db server name.
+#>
+$CodeSection="26"
+$DwDbServer=(Get-ItemProperty $SetupRegKey).DataWarehouseDBServerName
+$ValueToCheck="DwDbServer"; CheckNull $DwDbServer # Expect value.
+
+<# CODE_SECTION_27
+# Get service info.
+#>
+$CodeSection="27"
+$ACSCollectorServiceRegKey="HKLM:SYSTEM\CurrentControlSet\Services\AdtServer" # If this key exists it's an ACS collector.
+If (Test-Path $ACSCollectorServiceRegKey) {
+$ACSCollector="Yes"
+GetServiceInfo $ACSCollectorServiceRegKey
+$Script:ACSCollectorServiceAccount=$Script:ServiceAccount
+$Script:ACSCollectorServiceStartMode=$Script:ServiceStartMode
+
+<# CODE_SECTION_28
+Get ACS collector UR info.
+#>
+$CodeSection="28"
+$ACSCollectorURFile="$WinDir\System32\Security\AdtServer\OmacAdmn.dll" # Best file for UR info.
+CheckFile $ACSCollectorURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True) {
+$ACSCollectorURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ValueToCheck="ACSCollectorURInstallDate"; CheckNull $ACSCollectorURInstallDate # Expect value.
+$ACSCollectorVersion=$Script:FileVersion
+$ValueToCheck="ACSCollectorVersion"; CheckNull $ACSCollectorVersion # Expect value.
+If ($Script:IsItNull -ne $True) { # 
+Switch($ACSCollectorVersion) {
+# SCOM 2012 R2
+"7.1.10226.0" {$ACSCollectorVersion="7.1.10226.0 (2012 R2 RTM)"; BREAK}
+"7.1.10226.1239" {$ACSCollectorVersion="7.1.10226.1239 (2012 R2 UR11)"; BREAK}
+"7.1.10226.1304" {$ACSCollectorVersion="7.1.10226.1304 (2012 R2 UR12)"; BREAK}
+"7.1.10226.1360" {$ACSCollectorVersion="7.1.10226.1360 (2012 R2 UR13)"; BREAK}
+"7.1.10226.1387" {$ACSCollectorVersion="7.1.10226.1387 (2012 R2 UR14)"; BREAK}
+# SCOM 2016
+"7.2.11719.0" {$ACSCollectorVersion="7.2.11719.0 (2016 RTM)"; BREAK}		
+"7.2.11938.0" {$ACSCollectorVersion="7.2.11938.0 (2016 UR4)"; BREAK}		
+"7.2.12016.0" {$ACSCollectorVersion="7.2.12016.0 (2016 UR5)"; BREAK}
+"7.2.12066.0" {$ACSCollectorVersion="7.2.12066.0 (2016 UR6)"; BREAK}
+"7.2.12150.0" {$ACSCollectorVersion="7.2.12150.0 (2016 UR7)"; BREAK}
+"7.2.12213.0" {$ACSCollectorVersion="7.2.12213.0 (2016 UR8)"; BREAK}		
+"7.2.12265.0" {$ACSCollectorVersion="7.2.12265.0 (2016 UR9)"; BREAK}		
+# SCOM 1801
+"7.3.13142.0" {$ACSCollectorVersion="7.3.13142.0 (1801)"; BREAK}		
+"7.3.13261.0" {$ACSCollectorVersion="7.3.13261.0 (1807)"; BREAK}	
+# SCOM 2019
+"10.19.10050.0" {$ACSCollectorVersion="10.19.10050.0 (2019 RTM)"; BREAK}
+"10.19.10140.0" {$ACSCollectorVersion="10.19.10140.0 (2019 UR1)"; BREAK}
+Default {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown ACS collector version: $ACSCollectorVersion.`n"; # Catch unknown versions.
+$Script:CountError+=1
+$ACSCollectorVersion="$ACSCollectorVersion (Unknown)"
+}}}}}
+Else {
+$ACSCollector="No"
+$ACSCollectorServiceAccount="n/a"
+$ACSCollectorServiceStartMode="n/a"
+$ACSCollectorURInstallDate="n/a"
+$ACSCollectorVersion="n/a"
+}
+
+<# CODE_SECTION_29
+Get RMS owner.
+#>
+$CodeSection="29"
+$Connection=New-Object System.Data.SQLClient.SQLConnection
+$Query="SELECT [PrincipalName] FROM [$OpsDbName].[dbo].[MTV_HealthService] WHERE IsRHS='1'"
+$Connection.ConnectionString="Data Source=$OpsDbServer;Database=$OpsDbName;Trusted_Connection=True;"
+$Connection.Open()
+$Command=New-Object System.Data.SQLClient.SQLCommand
+$Command.Connection=$Connection
+$Command.CommandText=$Query
+$Reader=$Command.ExecuteReader()
+$Datatable=New-Object System.Data.DataTable
+$Datatable.Load($Reader)
+$RMSFqdn=$Datatable.PrincipalName
+$Connection.Close() 
+If($RMSFqdn -eq $ComputerFqdn) {
+$RMS="Yes"
+} Else {
+$RMS="No"
+}
+
+}
+Else {
+$MgmtServerInstallDirectory="n/a"
+$MgmtServerURInstallDate="n/a"
+$MgmtServerVersion="n/a"
+$ConfigServiceAccount="n/a"
+$ConfigServiceStartMode="n/a"
+$DataAccessServiceAccount="n/a"
+$DataAccessServiceStartMode="n/a"
+$OpsDbName="n/a"
+$OpsDbServer="n/a"
+$DWDbName="n/a"
+$DwDbServer="n/a"
+$ACSCollector="No"
+$ACSCollectorServiceAccount="n/a"
+$ACSCollectorServiceStartMode="n/a"
+$ACSCollectorURInstallDate="n/a"
+$ACSCollectorVersion="n/a"
+$RMS="n/a"
+}
+
+<#**************************************** GATEWAY SERVER SECTION ****************************************#>
+
+If((Get-ItemProperty $SetupRegKey).MOMGatewayVersion) {#1
+
+<# CODE_SECTION_30
+Get gateway server install directory.
+#>
+$CodeSection="30"
+$GatewayServerInstallDirectory=(Get-ItemProperty $SetupRegKey).InstallDirectory.TrimEnd("\")
+$ValueToCheck="GatewayServerInstallDirectory"; CheckNull $GatewayServerInstallDirectory # Expect value.
+
+<# CODE_SECTION_31
+Get gateway server UR info
+There are different files for different versions.
+#>
+$CodeSection="31"
+$GatewayServerURFile="$GatewayServerInstallDirectory\HealthService.dll" # Should be on all versions. Best UR file for 2012 R2 (All URs), 2016 (UR2, UR4-9), 2019 UR1.
+CheckFile $GatewayServerURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True) {
+$GatewayServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$GatewayServerVersion=$Script:FileVersion
+If ($GatewayServerVersion -match "8.0.10970.0") {  # Best UR file for 2016 UR3.
+$GatewayServerURFile="$GatewayServerInstallDirectory\MomWsManModules.dll"
+CheckFile $GatewayServerURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True){
+$GatewayServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$GatewayServerVersion=$Script:FileVersion
+}
+} ElseIf ($GatewayServerVersion -match "8.0.13053.0") {  # Best UR file for 1801.
+$GatewayServerURFile="$GatewayServerInstallDirectory\MOMAgentManagement.dll"
+CheckFile $GatewayServerURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True){
+$GatewayServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$GatewayServerVersion=$Script:FileVersion
+}
+}
+$ValueToCheck="GatewayServerURInstallDate"; CheckNull $GatewayServerURInstallDate # Expect value.
+$ValueToCheck="GatewayServerVersion"; CheckNull $GatewayServerVersion # Expect value.
+
+If ($Script:IsItNull -ne $True) {
+Switch($GatewayServerVersion) {
+# SCOM 2012 R2
+"7.1.10184.0" {$GatewayServerVersion="7.1.10184.0 (2012 R2 RTM)"; BREAK}
+"7.1.10188.0" {$GatewayServerVersion="7.1.10188.0 (2012 R2 UR1)"; BREAK}
+"7.1.10195.0" {$GatewayServerVersion="7.1.10195.0 (2012 R2 UR2)"; BREAK}
+"7.1.10204.0" {$GatewayServerVersion="7.1.10204.0 (2012 R2 UR3)"; BREAK}
+"7.1.10211.0" {$GatewayServerVersion="7.1.10211.0 (2012 R2 UR4)"; BREAK}
+"7.1.10213.0" {$GatewayServerVersion="7.1.10213.0 (2012 R2 UR5)"; BREAK}
+"7.1.10218.0" {$GatewayServerVersion="7.1.10218.0 (2012 R2 UR6)"; BREAK}
+"7.1.10229.0" {$GatewayServerVersion="7.1.10229.0 (2012 R2 UR7)"; BREAK}
+"7.1.10241.0" {$GatewayServerVersion="7.1.10241.0 (2012 R2 UR8)"; BREAK}
+"7.1.10268.0" {$GatewayServerVersion="7.1.10268.0 (2012 R2 UR9)"; BREAK}
+"7.1.10285.0" {$GatewayServerVersion="7.1.10285.0 (2012 R2 UR11)"; BREAK}
+"7.1.10292.0" {$GatewayServerVersion="7.1.10292.0 (2012 R2 UR12)"; BREAK}
+"7.1.10302.0" {$GatewayServerVersion="7.1.10302.0 (2012 R2 UR13)"; BREAK}
+"7.1.10305.0" {$GatewayServerVersion="7.1.10305.0 (2012 R2 UR14)"; BREAK}
+# SCOM 2016
+"8.0.10918.0" {$GatewayServerVersion="8.0.10918.0 (2016 RTM)"; BREAK}
+"8.0.10949.0" {$GatewayServerVersion="8.0.10949.0 (2016 UR2)"; BREAK}
+"8.0.10970.0" {$GatewayServerVersion="8.0.10970.0 (2016 UR3)"; BREAK}
+"8.0.10977.0" {$GatewayServerVersion="8.0.10977.0 (2016 UR4)"; BREAK}		
+"8.0.10990.0" {$GatewayServerVersion="8.0.10990.0 (2016 UR5)"; BREAK}
+"8.0.11004.0" {$GatewayServerVersion="8.0.11004.0 (2016 UR6)"; BREAK}
+"8.0.11025.0" {$GatewayServerVersion="8.0.11025.0 (2016 UR7)"; BREAK}
+"8.0.11037.0" {$GatewayServerVersion="8.0.11037.0 (2016 UR8)"; BREAK}		
+"8.0.11049.0" {$GatewayServerVersion="8.0.11049.0 (2016 UR9)"; BREAK}		
+# SCOM 1801
+"8.0.13053.0" {$GatewayServerVersion="8.0.13053.0 (1801)"; BREAK}		
+"7.3.13261.0" {$GatewayServerVersion="7.3.13261.0 (1807)"; BREAK}
+# SCOM 2019
+"10.19.10014.0" {$GatewayServerVersion="10.19.10014.0 (2019 RTM)"; BREAK}
+"10.19.10140.0" {$GatewayServerVersion="10.19.10140.0 (2019 UR1)"; BREAK}
+"10.19.10153.0" {$GatewayServerVersion="10.19.10153.0 (2019 UR2)"; BREAK}
+Default {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown gateway server version: $GatewayServerVersion.`n";
+$Script:CountError+=1
+$GatewayServerVersion="$GatewayServerVersion (Unknown)"
+}}}}
+
+<# CODE_SECTION_32
+Get gateway management groups.
+#>
+$CodeSection="32"
+$IgnoreGatewayMgmtGroups=$IgnoreGatewayMgmtGroups.Split(",") # Split into array so we can check each item.
+$GatewayMGFolders=Get-ChildItem -Directory -Path "$GatewayServerInstallDirectory\Health Service State\Connector Configuration Cache" # Get folders only.
+$GatewayMGCount=($GatewayMGFolders | Measure-Object).Count
+$GatewayMGFolders | ForEach-Object {
+$MGName=$_.Name
+$GatewayConfigFile="$GatewayServerInstallDirectory\Health Service State\Connector Configuration Cache\$MGName\OpsMgrConnector.Config.xml"
+If (Test-Path -Path $GatewayConfigFile) {
+$XPath="Message/State/Parents/Added/Item" # Set XPath so we can find primary/failover server info.
+$GetPrimaryXml=Select-Xml -Path $GatewayConfigFile -XPath $XPath | Select-Object -ExpandProperty node | Where-Object {$_.IsPrimary -eq "True"}
+$Primary=$GetPrimaryXml.AuthenticationName
+$MGOverride=$IgnoreGatewayMgmtGroups -contains $MGName
+If ($MGOverride -eq $True) { # If overriden loop to next.
+$GatewayMGFailovers+="MGName=" + $MGName + ",Primary=$Primary,Failovers=OverrideIgnore;"
+} Else { # Get failovers.
+$Failovers=$null # Reset these.
+$GetFailoverXml=Select-Xml -Path $GatewayConfigFile -XPath $XPath | Select-Object -ExpandProperty node | Where-Object {$_.IsPrimary -eq "False"} | Sort-Object AuthenticationName # array of failovers.
+If (($GetFailoverXml | Measure-Object).Count -gt 0) { # If more than one failovers update $Failovers array.
+$GetFailoverXml | ForEach-Object {
+$Failovers+=$_.AuthenticationName + ","
+}
+$Failovers=$Failovers.TrimEnd(",")
+$GatewayMGFailovers+="MGName=" + $MGName + ",Primary=$Primary,Failovers=$Failovers;" # Update $GatewayMGFailovers array.
+} Else { # If no failovers AND no override then generate warning.
+$GatewayMGFailovers+="MGName=" + $MGName + ",Primary=$Primary,Failovers=;" # Update $GatewayMGFailovers array.
+$Script:Message+="[CODE_SECTION_$CodeSection] Gateway server in management group $MGName has no failover servers configured.`n"
+$Script:CountError+=1
+}
+}
+} Else {
+$Script:Message+="[CODE_SECTION_$CodeSection] Gateway server in management group $MGName has no OpsMgrConnector.Config.xml file.`n"
+$GatewayMGFailovers+="MGName=$MGName,MissingConfigFile;" # Update $GatewayMGFailovers array.
+$Script:CountError+=1
+}
+}
+$GatewayMGFailovers=$GatewayMGFailovers.TrimEnd(";")
+} Else {#1
+$GatewayServerInstallDirectory="n/a"
+$GatewayServerURInstallDate="n/a"
+$GatewayServerVersion="n/a"
+$GatewayMGCount="n/a"
+$GatewayMGFailovers="n/a"
+}
+
+<#**************************************** WEB CONSOLE SERVER SECTION ****************************************#>
+
+$WebConsoleRegKey="HKLM:\SOFTWARE\Microsoft\System Center Operations Manager\12\Setup\WebConsole"
+If(Test-Path $WebConsoleRegKey) {
+<# CODE_SECTION_33
+Get web console install directory.
+#>
+$CodeSection="33"
+$WebConsoleInstallDirectory=(Get-ItemProperty $WebConsoleRegKey).InstallDirectory.TrimEnd("\")
+$ValueToCheck="WebConsoleInstallDirectory"; CheckNull $WebConsoleInstallDirectory # Expect value.
+
+<# CODE_SECTION_34
+Get web console UR file info.
+There are different files for different versions.
+#>
+$CodeSection="34"
+$WebConsoleURFile="$WebConsoleInstallDirectory\WebHost\bin\Microsoft.EnterpriseManagement.Management.DataProviders.dll" # Best UR file for 2012 R2.
+CheckFile $WebConsoleURFile NoAlert
+If($script:FileVersion -match "7.1.1") {
+$WebConsoleURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$WebConsoleVersion=$Script:FileVersion
+}
+
+$WebConsoleURFile="$WebConsoleInstallDirectory\WebHost\bin\Microsoft.EnterpriseManagement.Monitoring.DataProviders.dll" # Best UR file for 2016.
+CheckFile $WebConsoleURFile NoAlert
+If($script:FileVersion -match "7.2.1") {
+$WebConsoleURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$WebConsoleVersion=$Script:FileVersion
+}
+
+$WebConsoleURFile="$WebConsoleInstallDirectory\WebHost\bin\Microsoft.Mom.Common.dll" # Best UR file for 1801.
+CheckFile $WebConsoleURFile NoAlert
+If($script:FileVersion -match "7.3.1") {
+$WebConsoleURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$WebConsoleVersion=$Script:FileVersion
+}
+
+$WebConsoleURFile="$WebConsoleInstallDirectory\Dashboard\bin\Microsoft.EnterpriseManagement.OMDataService.dll" # Best UR file for 2019.
+CheckFile $WebConsoleURFile NoAlert
+If($script:FileVersion -match "10.19") {
+$WebConsoleURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$WebConsoleVersion=$Script:FileVersion
+}
+$ValueToCheck="WebConsoleURInstallDate"; CheckNull $WebConsoleURInstallDate # Expect value.
+$ValueToCheck="WebConsoleVersion"; CheckNull $WebConsoleVersion # Expect value.
+If ($Script:IsItNull -ne $True) {
+Switch($WebConsoleVersion) {
+# SCOM 2012 R2
+"7.1.10226.0" {$WebConsoleVersion="7.1.10226.0 (2012 R2 RTM)"; BREAK}
+"7.1.10226.1009" {$WebConsoleVersion="7.1.10226.1009 (2012 R2 UR1)"; BREAK}
+"7.1.10226.1015" {$WebConsoleVersion="7.1.10226.1015 (2012 R2 UR2)"; BREAK}
+"7.1.10226.1037" {$WebConsoleVersion="7.1.10226.1037 (2012 R2 UR3)"; BREAK}
+"7.1.10226.1046" {$WebConsoleVersion="7.1.10226.1046 (2012 R2 UR4)"; BREAK}
+"7.1.10226.1052" {$WebConsoleVersion="7.1.10226.1052 (2012 R2 UR5)"; BREAK}
+"7.1.10226.1064" {$WebConsoleVersion="7.1.10226.1064 (2012 R2 UR6)"; BREAK}
+"7.1.10226.1090" {$WebConsoleVersion="7.1.10226.1090 (2012 R2 UR7)"; BREAK}
+"7.1.10226.1118" {$WebConsoleVersion="7.1.10226.1118 (2012 R2 UR8)"; BREAK}
+"7.1.10226.1177" {$WebConsoleVersion="7.1.10226.1177 (2012 R2 UR9)"; BREAK}
+"7.1.10226.1239" {$WebConsoleVersion="7.1.10226.1239 (2012 R2 UR11)"; BREAK}
+"7.1.10226.1304" {$WebConsoleVersion="7.1.10226.1304 (2012 R2 UR12)"; BREAK}
+"7.1.10226.1360" {$WebConsoleVersion="7.1.10226.1360 (2012 R2 UR13)"; BREAK}
+"7.1.10226.1387" {$WebConsoleVersion="7.1.10226.1387 (2012 R2 UR14)"; BREAK}
+# SCOM 2016
+"7.2.11719.0" {$WebConsoleVersion="7.2.11719.0 (2016 RTM)"; BREAK}
+"7.2.11759.0" {$WebConsoleVersion="7.2.11759.0 (2016 UR1)"; BREAK}
+"7.2.11822.0" {$WebConsoleVersion="7.2.11822.0 (2016 UR2)"; BREAK}
+"7.2.11878.0" {$WebConsoleVersion="7.2.11878.0 (2016 UR3)"; BREAK}
+"7.2.11938.0" {$WebConsoleVersion="7.2.11938.0 (2016 UR4)"; BREAK}		
+"7.2.12016.0" {$WebConsoleVersion="7.2.12016.0 (2016 UR5)"; BREAK}
+"7.2.12066.0" {$WebConsoleVersion="7.2.12066.0 (2016 UR6)"; BREAK}
+"7.2.12150.0" {$WebConsoleVersion="7.2.12150.0 (2016 UR7)"; BREAK}
+"7.2.12213.0" {$WebConsoleVersion="7.2.12213.0 (2016 UR8)"; BREAK}		
+"7.2.12265.0" {$WebConsoleVersion="7.2.12265.0 (2016 UR9)"; BREAK}		
+# SCOM 1801
+"7.3.13142.0" {$WebConsoleVersion="7.3.13142.0 (1801)"; BREAK}		
+"7.3.13261.0" {$WebConsoleVersion="7.3.13261.0 (1807)"; BREAK} # this is how we id the 1807 patch on a web server.
+# SCOM 2019
+"10.19.10050.0" {$WebConsoleVersion="10.19.10050.0 (2019 RTM)"; BREAK}
+"10.19.10311.0" {$WebConsoleVersion="10.19.10311.0 (2019 UR1)"; BREAK}
+"10.19.10349.0" {$WebConsoleVersion="10.19.10349.0 (2019 UR1 Hotfix)"; BREAK}
+"10.19.10407.0" {$WebConsoleVersion="10.19.10407.0 (2019 UR2)"; BREAK}
+Default {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown web console version: $WebConsoleVersion.`n"; # Check #4. If previous 3 checks fail it must be a new version of the WebConsole. Generate warning so we know to update mp.
+$Script:CountError+=1
+$WebConsoleVersion="$WebConsoleVersion (Unknown)"
+}}}
+
+<# CODE_SECTION_35
+Get Authentication Mode.
+#>
+$CodeSection="35"
+$AuthenticationMode=(Get-ItemProperty $WebConsoleRegKey).AUTHENTICATION_MODE
+$ValueToCheck="AuthenticationMode"; CheckNull $AuthenticationMode # Expect value.
+
+<# CODE_SECTION_36
+Get DefaultServer.
+#>
+$CodeSection="36"
+$DefaultServer=(Get-ItemProperty $WebConsoleRegKey).DEFAULT_SERVER
+$ValueToCheck="DefaultServer"; CheckNull $DefaultServer # Expect value.
+
+<# CODE_SECTION_37
+Get WebConsoleUrl.
+#>
+$CodeSection="37"
+$WebConsoleUrl=(Get-ItemProperty $WebConsoleRegKey).WEB_CONSOLE_URL
+$ValueToCheck="WebConsoleUrl"; CheckNull $WebConsoleUrl # Expect value.
+
+<# CODE_SECTION_38
+Get ApmAdvisorUrl.
+#>
+$CodeSection="38"
+$ApmAdvisorUrl=(Get-ItemProperty $WebConsoleRegKey).APM_ADVISOR_URL
+$ValueToCheck="ApmAdvisorUrl"; CheckNull $ApmAdvisorUrl # Expect value.
+
+<# CODE_SECTION_39
+Get ApmDiagnosticsUrl.
+#>
+$CodeSection="39"
+$ApmDiagnosticsUrl=(Get-ItemProperty $WebConsoleRegKey).APM_DIAGNOSTICS_URL
+$ValueToCheck="ApmDiagnosticsUrl"; CheckNull $ApmDiagnosticsUrl # Expect value.
+
+}
+Else {
+$WebConsoleInstallDirectory="n/a"
+$WebConsoleURInstallDate="n/a"
+$WebConsoleVersion="n/a"
+$AuthenticationMode="n/a"
+$DefaultServer="n/a"
+$WebConsoleUrl="n/a"
+$ApmAdvisorUrl="n/a"
+$ApmDiagnosticsUrl="n/a"
+}
+
+<#**************************************** REPORT SERVER SECTION ****************************************#>
+
+<# CODE_SECTION_40
+Get report server install directory.
+#>
+$ReportServerRegKey="HKLM:\SOFTWARE\Microsoft\System Center Operations Manager\12\Reporting" # If this key exists it's a SCOM report server.
+If(Test-Path $ReportServerRegKey) {
+$CodeSection="40"
+$ReportServerInstallDirectory=(Get-ItemProperty $ReportServerRegKey\..\Setup\Reporting).InstallDirectory.TrimEnd("\")
+$ValueToCheck="ReportServerInstallDirectory"; CheckNull $ReportServerInstallDirectory # Expect value.
+
+<# CODE_SECTION_41
+Get report server UR info.
+There are different files for different versions. 
+#>
+$CodeSection="41"
+$ReportServerURFile="$ReportServerInstallDirectory\Microsoft.Mom.Common.dll" # Get SCOM version. Every RS has this file. Best file for 2012 R2 with no URs installed.
+CheckFile $ReportServerURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True) { # Check file versions to determine the right one to use.
+If($Script:FileVersion -match "7.1.1") { # 2012 R2.
+$ReportServerURFile="$ReportServerInstallDirectory\SDK Binaries\Microsoft.EnterpriseManagement.OperationsManager.dll" # If a 2012 R2 UR has been installed this file will exist.
+CheckFile $ReportServerURFile NoAlert # Don't alert if file doesn't exist.
+$ReportServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ReportServerVersion=$Script:FileVersion
+}
+ElseIf (($Script:FileVersion -match "7.2.1") -or ($Script:FileVersion -match "7.3.1" )) {# 2016, 1801.
+$ReportServerURFile="C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.EnterpriseManagement.OperationsManager\v4.0_7.0.5000.0__31bf3856ad364e35\Microsoft.EnterpriseManagement.OperationsManager.dll"
+CheckFile $ReportServerURFile # Alert if file doesn't exist.
+$ReportServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ReportServerVersion=$Script:FileVersion
+}
+ElseIf ($Script:FileVersion -match "10.19") { # 2019.
+$File1="C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.EnterpriseManagement.Core\v4.0_7.0.5000.0__31bf3856ad364e35\Microsoft.EnterpriseManagement.Core.dll" # RTM & UR1Hotfix. Created when RS installed.
+CheckFile $File1 # Alert if file doesn't exist.
+$ReportServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ReportServerVersion=$Script:FileVersion
+$File1Date=$Script:FileModifedRaw
+$File1Version=$Script:FileVersion
+$File2="C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.EnterpriseManagement.OperationsManager\v4.0_7.0.5000.0__31bf3856ad364e35\Microsoft.EnterpriseManagement.OperationsManager.dll" # UR1, UR2.
+CheckFile $File2 NoAlert # Don't alert if file doesn't exist.
+If ($Script:FileExists -eq $True) {
+$File2Date=$Script:FileModifedRaw
+$File2Version=$Script:FileVersion
+If ($File1Date -lt $File2Date) { # If $File2Date is older than $File1Date it means UR1Hotfix has been installed.
+$ReportServerURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ReportServerVersion=$Script:FileVersion
+}}}
+$ValueToCheck="ReportServerURInstallDate"; CheckNull $ReportServerURInstallDate # Expect value.
+$ValueToCheck="ReportServerVersion"; CheckNull $ReportServerVersion # Expect value.
+If ($Script:IsItNull -ne $True) { # 
+Switch($ReportServerVersion) {
+# SCOM 2012 R2
+"7.1.10226.0" {$ReportServerVersion="7.1.10226.0 (2012 R2 RTM)"; BREAK}
+"7.1.10226.1304" {$ReportServerVersion="7.1.10226.1304 (2012 R2 UR12)"; BREAK}
+"7.1.10226.1360" {$ReportServerVersion="7.1.10226.1360 (2012 R2 UR13)"; BREAK}
+"7.1.10226.1387" {$ReportServerVersion="7.1.10226.1387 (2012 R2 UR14)"; BREAK}
+# SCOM 2016
+"7.2.11719.0" {$ReportServerVersion="7.2.11719.0 (2016 RTM)"; BREAK}
+"7.2.12016.0" {$ReportServerVersion="7.2.12016.0 (2016 UR5)"; BREAK}
+"7.2.12066.0" {$ReportServerVersion="7.2.12066.0 (2016 UR6)"; BREAK}
+"7.2.12150.0" {$ReportServerVersion="7.2.12150.0 (2016 UR7)"; BREAK}
+"7.2.12213.0" {$ReportServerVersion="7.2.12213.0 (2016 UR8)"; BREAK}		
+"7.2.12265.0" {$ReportServerVersion="7.2.12265.0 (2016 UR9)"; BREAK}		
+# SCOM 1801
+"7.3.13142.0" {$ReportServerVersion="7.3.13142.0 (1801)"; BREAK}		
+"7.3.13261.0" {$ReportServerVersion="7.3.13261.0 (1807)"; BREAK}	
+# SCOM 2019
+"10.19.1032.0" {$ReportServerVersion="10.19.1032.0 (2019 RTM)"; BREAK}
+"10.19.10311.0" {$ReportServerVersion="10.19.10311.0 (2019 UR1)"; BREAK}
+"10.19.1035.82" {$ReportServerVersion="10.19.1035.82 (2019 UR1 Hotfix)"; BREAK}
+"10.19.1035.100" {$ReportServerVersion="10.19.1035.100 (2019 UR2)"; BREAK} # Microsoft.EnterpriseManagement.Core.dll. Adding 2 values for UR2 in case date compare gets weird.
+"10.19.10407.0" {$ReportServerVersion="10.19.10407.0 (2019 UR2)"; BREAK} # Microsoft.EnterpriseManagement.OperationsManager.dll.
+Default {
+If ($IgnoreReportServerVersion -eq $True) {
+$ReportServerVersion="$ReportServerVersion (OverrideIgnore)"      
+}
+Else {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown report server version: $ReportServerVersion.`n";
+$Script:CountError+=1
+$ReportServerVersion="$ReportServerVersion (Unknown)"  
+}}}}
+}
+
+<# CODE_SECTION_42
+Get ReportServerDwDbServer.
+#>
+$CodeSection="42"
+$ReportServerDwDbServer=(Get-ItemProperty $ReportServerRegKey).DWDBInstance
+$ValueToCheck="ReportServerDwDbServer"; CheckNull $ReportServerDwDbServer # Expect value.
+
+<# CODE_SECTION_43
+Get ReportServerDWDBName.
+#>
+$CodeSection="43"
+$ReportServerDWDBName=(Get-ItemProperty $ReportServerRegKey).DWDBName
+$ValueToCheck="ReportServerDWDBName"; CheckNull $ReportServerDWDBName # Expect value.
+
+<# CODE_SECTION_44
+Get ReportServerUrl.
+#>
+$CodeSection="44"
+$ReportServerUrl=(Get-ItemProperty $ReportServerRegKey).ReportingServerUrl
+$ValueToCheck="ReportServerUrl"; CheckNull $ReportServerUrl # Expect value.
+
+<# CODE_SECTION_45
+Get SRSInstance.
+#>
+$CodeSection="45"
+$SRSInstance=(Get-ItemProperty $ReportServerRegKey).SRSInstance
+$ValueToCheck="SRSInstance"; CheckNull $SRSInstance # Expect value.
+
+<# CODE_SECTION_46
+Get report service account and start mode.
+Using the registry to get report server service info is unreliable because info returned by different SQL versions and named instances is inconsistent.
+#>
+$CodeSection="46"
+$ReportServerService=Get-CimInstance -ClassName Win32_Service -Filter "DisplayName like 'SQL Server Reporting Services%'" # Confirmed this works on SQL 2012SP4, 2017.
+$ReportServerServiceAccount=$ReportServerService.StartName
+$ReportServerServiceStartMode=$ReportServerService.StartMode
+$ValueToCheck="ReportServerServiceAccount"; CheckNull $ReportServerServiceAccount # Expect value.
+$ValueToCheck="ReportServerServiceStartMode"; CheckNull $ReportServerServiceStartMode # Expect value.
+}
+Else {
+$ReportServerInstallDirectory="n/a"
+$ReportServerURInstallDate="n/a"
+$ReportServerVersion="n/a"
+$ReportServerDwDbServer="n/a"
+$ReportServerDWDBName="n/a"
+$ReportServerUrl="n/a"
+$SRSInstance="n/a"
+$ReportServerServiceAccount="n/a"
+$ReportServerServiceStartMode="n/a"
+}
+
+<#**************************************** CONSOLE SECTION ****************************************#>
+
+<# CODE_SECTION_47
+Get console directory.
+#>
+$ConsoleRegKey="HKLM:\SOFTWARE\Microsoft\System Center Operations Manager\12\Setup\Console" # If this key exists the console is installed.
+If(Test-Path $ConsoleRegKey) {
+$CodeSection="47"
+$ConsoleInstallDirectory=(Get-ItemProperty $ConsoleRegKey).InstallDirectory.TrimEnd("\")
+$ValueToCheck="ConsoleInstallDirectory"; CheckNull $ConsoleInstallDirectory # Expect value.
+
+<# CODE_SECTION_48
+Get console UR info.
+#>
+$CodeSection="48"
+$ConsoleURFile="$ConsoleInstallDirectory\Tools\TMF\OMTraceTMFVer.Dll" # Best file for UR info.
+CheckFile $ConsoleURFile # Alert if file doesn't exist.
+If ($Script:FileExists -eq $True) {
+$ConsoleURInstallDate=$Script:FileModifed # Determines when UR was installed.
+$ValueToCheck="ConsoleURInstallDate"; CheckNull $ConsoleURInstallDate # Expect value.
+$ConsoleVersion=$Script:FileVersion
+$ValueToCheck="ConsoleVersion"; CheckNull $ConsoleVersion # Expect value.
+If ($Script:IsItNull -ne $True) { # 
+Switch($ConsoleVersion) {
+# SCOM 2012 R2
+"7.1.10226.0" {$ConsoleVersion="7.1.10226.0 (2012 R2 RTM)"; BREAK}
+"7.1.10226.1009" {$ConsoleVersion="7.1.10226.1009 (2012 R2 UR1)"; BREAK}
+"7.1.10226.1015" {$ConsoleVersion="7.1.10226.1015 (2012 R2 UR2)"; BREAK}
+"7.1.10226.1037" {$ConsoleVersion="7.1.10226.1037 (2012 R2 UR3)"; BREAK}
+"7.1.10226.1046" {$ConsoleVersion="7.1.10226.1046 (2012 R2 UR4)"; BREAK}
+"7.1.10226.1064" {$ConsoleVersion="7.1.10226.1064 (2012 R2 UR6)"; BREAK}
+"7.1.10226.1090" {$ConsoleVersion="7.1.10226.1090 (2012 R2 UR7)"; BREAK}
+"7.1.10226.1118" {$ConsoleVersion="7.1.10226.1118 (2012 R2 UR8)"; BREAK}
+"7.1.10226.1177" {$ConsoleVersion="7.1.10226.1177 (2012 R2 UR9)"; BREAK}
+"7.1.10226.1239" {$ConsoleVersion="7.1.10226.1239 (2012 R2 UR11)"; BREAK}
+"7.1.10226.1304" {$ConsoleVersion="7.1.10226.1304 (2012 R2 UR12)"; BREAK}
+"7.1.10226.1360" {$ConsoleVersion="7.1.10226.1360 (2012 R2 UR13)"; BREAK}
+"7.1.10226.1387" {$ConsoleVersion="7.1.10226.1387 (2012 R2 UR14)"; BREAK}
+# SCOM 2016
+"7.2.11719.0" {$ConsoleVersion="7.2.11719.0 (2016 RTM)"; BREAK}
+"7.2.11759.0" {$ConsoleVersion="7.2.11759.0 (2016 UR1)"; BREAK}
+"7.2.11822.0" {$ConsoleVersion="7.2.11822.0 (2016 UR2)"; BREAK}
+"7.2.11878.0" {$ConsoleVersion="7.2.11878.0 (2016 UR3)"; BREAK}
+"7.2.11938.0" {$ConsoleVersion="7.2.11938.0 (2016 UR4)"; BREAK}		
+"7.2.12016.0" {$ConsoleVersion="7.2.12016.0 (2016 UR5)"; BREAK}
+"7.2.12066.0" {$ConsoleVersion="7.2.12066.0 (2016 UR6)"; BREAK}
+"7.2.12150.0" {$ConsoleVersion="7.2.12150.0 (2016 UR7)"; BREAK}
+"7.2.12213.0" {$ConsoleVersion="7.2.12213.0 (2016 UR8)"; BREAK}		
+"7.2.12265.0" {$ConsoleVersion="7.2.12265.0 (2016 UR9)"; BREAK}		
+# SCOM 1801
+"7.3.13142.0" {$ConsoleVersion="7.3.13142.0 (1801)"; BREAK}		
+"7.3.13261.0" {$ConsoleVersion="7.3.13261.0 (1807)"; BREAK}	
+# SCOM 2019
+"10.19.10050.0" {$ConsoleVersion="10.19.10050.0 (2019 RTM)"; BREAK}
+"10.19.10311.0" {$ConsoleVersion="10.19.10311.0 (2019 UR1)"; BREAK}
+"10.19.10349.0" {$ConsoleVersion="10.19.10349.0 (2019 UR1 Hotfix)"; BREAK}
+"10.19.10407.0" {$ConsoleVersion="10.19.10407.0 (2019 UR2)"; BREAK}
+Default {
+$Script:Message+="[CODE_SECTION_$CodeSection] Unknown console version: $ConsoleVersion.`n"
+$Script:CountError+=1
+$ConsoleVersion="$ConsoleVersion (Unknown)"
+}}}}
+} Else {
+$ConsoleInstallDirectory="n/a"
+$ConsoleURInstallDate="n/a"
+$ConsoleVersion="n/a"
+}
+
+<#**************************************** TESTING SECTION ****************************************#>
+
+<# FOR TESTING
+write-host "OperatingSystem: $OperatingSystem"
+write-host "Product: $Product"
+write-host "AgentInstallDirectory: $AgentInstallDirectory"
+write-host "AgentURInstallDate: $AgentURInstallDate"
+write-host "AgentVersion: $AgentVersion"
+write-host "AgentMGCount: $AgentMGCount"
+write-host "AgentMGFailovers: $AgentMGFailovers"
+write-host "HealthServiceAccount: $HealthServiceAccount"
+write-host "HealthServiceStartMode: $HealthServiceStartMode"
+write-host "CertificateExpiryDate: $CertificateExpiryDate"
+write-host "ADIntegration: $ADIntegration"
+write-host "APMInstalled: $APMInstalled"
+write-host "APMServiceAccount: $APMServiceAccount"
+write-host "APMServiceStartMode: $APMServiceStartMode"
+write-host "ACSForwarderServiceAccount: $ACSForwarderServiceAccount"
+write-host "ACSForwarderServiceStartMode: $ACSForwarderServiceStartMode"
+write-host "TLS12: $TLS12"
+write-host "LAWorkspaceCount: $LAWorkspaceCount"
+write-host "LAWorkspaces: $LAWorkspaces"
+write-host "LAProxyUrl: $LAProxyUrl"
+write-host "LAProxyUsername: $LAProxyUsername"
+write-host "ComputerType: $ComputerType"
+write-host "MgmtServerInstallDirectory: $MgmtServerInstallDirectory"
+write-host "MgmtServerURInstallDate: $MgmtServerURInstallDate"
+write-host "MgmtServerVersion: $MgmtServerVersion"
+write-host "ConfigServiceAccount: $ConfigServiceAccount"
+write-host "ConfigServiceStartMode: $ConfigServiceStartMode"
+write-host "DataAccessServiceAccount: $DataAccessServiceAccount"
+write-host "DataAccessServiceStartMode: $DataAccessServiceStartMode"
+write-host "OpsDbName: $OpsDbName"
+write-host "OpsDbServer: $OpsDbServer"
+write-host "DWDbName: $DWDbName"
+write-host "DwDbServer: $DwDbServer"
+write-host "ACSCollector: $ACSCollector"
+write-host "ACSCollectorServiceAccount: $ACSCollectorServiceAccount"
+write-host "ACSCollectorServiceStartMode: $ACSCollectorServiceStartMode"
+write-host "ACSCollectorURInstallDate: $ACSCollectorURInstallDate"
+write-host "ACSCollectorVersion: $ACSCollectorVersion"
+write-host "RMS: $RMS"
+write-host "GatewayServerInstallDirectory: $GatewayServerInstallDirectory"
+write-host "GatewayServerURInstallDate: $GatewayServerURInstallDate"
+write-host "GatewayServerVersion: $GatewayServerVersion"
+write-host "GatewayMGCount: $GatewayMGCount"
+write-host "GatewayMGFailovers: $GatewayMGFailovers"
+write-host "WebConsoleInstallDirectory: $WebConsoleInstallDirectory"
+write-host "WebConsoleURInstallDate: $WebConsoleURInstallDate"
+write-host "WebConsoleVersion: $WebConsoleVersion"
+write-host "AuthenticationMode: $AuthenticationMode"
+write-host "DefaultServer: $DefaultServer"
+write-host "WebConsoleUrl: $WebConsoleUrl"
+write-host "ApmAdvisorUrl: $ApmAdvisorUrl"
+write-host "ApmDiagnosticsUrl: $ApmDiagnosticsUrl"
+write-host "ReportServerInstallDirectory: $ReportServerInstallDirectory"
+write-host "ReportServerURInstallDate: $ReportServerURInstallDate"
+write-host "ReportServerVersion: $ReportServerVersion"
+write-host "ReportServerDwDbServer: $ReportServerDwDbServer"
+write-host "ReportServerDWDBName: $ReportServerDWDBName"
+write-host "ReportServerUrl: $ReportServerUrl"
+write-host "SRSInstance: $SRSInstance"
+write-host "ReportServerServiceAccount: $ReportServerServiceAccount"
+write-host "ReportServerServiceStartMode: $ReportServerServiceStartMode"
+write-host "ConsoleInstallDirectory: $ConsoleInstallDirectory"
+write-host "ConsoleURInstallDate: $ConsoleURInstallDate"
+write-host "ConsoleVersion: $ConsoleVersion"
+Write-Host "PSVersion: $PSVersion" # Not returned as discovery data. Only used in events.
+Write-Host "IgnoreAgentMgmtGroups: $IgnoreAgentMgmtGroups" # Not returned as discovery data. Only used in events.
+Write-Host "IgnoreAgentVersion: $IgnoreAgentVersion" # Not returned as discovery data. Only used in events.
+Write-Host "IgnoreReportServerVersion: $IgnoreReportServerVersion" # Not returned as discovery data. Only used in events.
+#>
+
+<#**************************************** ADD DISCOVERY DATA SECTION ****************************************#>
+
+$Instance=$DiscoveryData.CreateClassInstance("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']$")
+$Instance.AddProperty("$MPElement[Name='Windows!Microsoft.Windows.Computer']/PrincipalName$", $ComputerName)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/OperatingSystem$", $OperatingSystem)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/Product$", $Product)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/AgentInstallDirectory$", $AgentInstallDirectory)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/AgentURInstallDate$", $AgentURInstallDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/AgentVersion$", $AgentVersion)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/AgentMGCount$", $AgentMGCount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/AgentMGFailovers$", $AgentMGFailovers)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/HealthServiceAccount$", $HealthServiceAccount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/HealthServiceStartMode$", $HealthServiceStartMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/CertificateExpiryDate$", $CertificateExpiryDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ADIntegration$", $ADIntegration)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/APMInstalled$", $APMInstalled)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/APMServiceAccount$", $APMServiceAccount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/APMServiceStartMode$", $APMServiceStartMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ACSForwarderServiceAccount$", $ACSForwarderServiceAccount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ACSForwarderServiceStartMode$", $ACSForwarderServiceStartMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/TLS12$", $TLS12)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/LAWorkspaceCount$", $LAWorkspaceCount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/LAWorkspaces$", $LAWorkspaces)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/LAProxyUrl$", $Script:LAProxyUrl)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/LAProxyUsername$", $Script:LAProxyUsername)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ComputerType$", $ComputerType)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/MgmtServerInstallDirectory$", $MgmtServerInstallDirectory)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/MgmtServerURInstallDate$", $MgmtServerURInstallDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/MgmtServerVersion$", $MgmtServerVersion)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ConfigServiceAccount$", $ConfigServiceAccount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ConfigServiceStartMode$", $ConfigServiceStartMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/DataAccessServiceAccount$", $DataAccessServiceAccount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/DataAccessServiceStartMode$", $DataAccessServiceStartMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/OpsDbName$", $OpsDbName)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/OpsDbServer$", $OpsDbServer)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/DWDbName$", $DWDbName)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/DwDbServer$", $DwDbServer)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ACSCollector$", $ACSCollector)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ACSCollectorServiceAccount$", $ACSCollectorServiceAccount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ACSCollectorServiceStartMode$", $ACSCollectorServiceStartMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ACSCollectorURInstallDate$", $ACSCollectorURInstallDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ACSCollectorVersion$", $ACSCollectorVersion)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/RMS$", $RMS)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/GatewayServerInstallDirectory$", $GatewayServerInstallDirectory)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/GatewayServerURInstallDate$", $GatewayServerURInstallDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/GatewayServerVersion$", $GatewayServerVersion)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/GatewayMGCount$", $GatewayMGCount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/GatewayMGFailovers$", $GatewayMGFailovers)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/WebConsoleInstallDirectory$", $WebConsoleInstallDirectory)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/WebConsoleURInstallDate$", $WebConsoleURInstallDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/WebConsoleVersion$", $WebConsoleVersion)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/AuthenticationMode$", $AuthenticationMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/DefaultServer$", $DefaultServer)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/WebConsoleUrl$", $WebConsoleUrl)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ApmAdvisorUrl$", $ApmAdvisorUrl)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ApmDiagnosticsUrl$", $ApmDiagnosticsUrl)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerInstallDirectory$", $ReportServerInstallDirectory)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerURInstallDate$", $ReportServerURInstallDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerVersion$", $ReportServerVersion)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerDwDbServer$", $ReportServerDwDbServer)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerDWDBName$", $ReportServerDWDBName)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerUrl$", $ReportServerUrl)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/SRSInstance$", $SRSInstance)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerServiceAccount$", $ReportServerServiceAccount)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ReportServerServiceStartMode$", $ReportServerServiceStartMode)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ConsoleInstallDirectory$", $ConsoleInstallDirectory)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ConsoleURInstallDate$", $ConsoleURInstallDate)
+$Instance.AddProperty("$MPElement[Name='TestH.SCOM.Inventory.Windows.Class']/ConsoleVersion$", $ConsoleVersion)
+$Instance.AddProperty("$MPElement[Name='System!System.Entity']/DisplayName$", $ComputerName)
+$DiscoveryData.AddInstance($Instance)
+
+# Submit discovery data back to Operations Manager and complete the script.
+$DiscoveryData
+
+<# FOR TESTING
+$ObjMomApi.Return($DiscoveryData)
+#>
+LogAndQuit
+}
+Catch
+{
+TerminatingError
+}
+}
+GetWindowsInventory -SourceId $SourceId -ManagedEntityId $ManagedEntityId -ComputerName $ComputerName -IgnoreAgentMgmtGroups $IgnoreAgentMgmtGroups -IgnoreAgentVersion $IgnoreAgentVersion -IgnoreGatewayMgmtGroups $IgnoreGatewayMgmtGroups -IgnoreReportServerVersion $IgnoreReportServerVersion # Need this to pass params in properly.
+# End Windows discovery
+]]>
+</ScriptBody>
+<Parameters>
+<Parameter>
+<Name>SourceId</Name>
+<Value>$MPElement$</Value>
+</Parameter>
+<Parameter>
+<Name>ManagedEntityId</Name>
+<Value>$Target/Id$</Value>
+</Parameter>
+<Parameter>
+<Name>ComputerName</Name>
+<Value>$Target/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value> <!--removed "Host" 15/7/20. WOW this actually fixed it.-->
+</Parameter>
+<Parameter>
+<Name>IgnoreAgentMgmtGroups</Name>
+<Value>$Config/IgnoreAgentMgmtGroups$</Value>
+</Parameter>
+<Parameter>
+<Name>IgnoreAgentVersion</Name>
+<Value>$Config/IgnoreAgentVersion$</Value>
+</Parameter>
+<Parameter>
+<Name>IgnoreReportServerVersion</Name>
+<Value>$Config/IgnoreReportServerVersion$</Value>
+</Parameter>
+<Parameter>
+<Name>IgnoreGatewayMgmtGroups</Name>
+<Value>$Config/IgnoreGatewayMgmtGroups$</Value>
+</Parameter>
+</Parameters>
+<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+</DataSource>
+</MemberModules>
+<Composition>
+<Node ID="DS" />
+</Composition>
+</Composite>
+</ModuleImplementation>
+<OutputType>System!System.Discovery.Data</OutputType>
+</DataSourceModuleType>
+
+<!--**************************************** GET LOG ANALYTICS WORKSPACES WRITE ACTION MODULE ****************************************-->
+
+<WriteActionModuleType ID="TestH.SCOM.Inventory.Task.WA" Accessibility="Internal" Batching="false">
+<Configuration>
+<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+</Configuration>
+<OverrideableParameters>
+<OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+</OverrideableParameters>
+<ModuleImplementation Isolation="Any">
+<Composite>
+<MemberModules>
+<WriteAction ID="PSWA" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
+<ScriptName>TestH.SCOM.Inventory.Task.WA.ps1</ScriptName>
+<ScriptBody><![CDATA[
+Function FoundNone {
+$Script:Output="No Log Analytics workspaces found."
+}
+
+Function GetLAWorkspaces {
+$CompName=$env:computername
+Write-Host "====================================="
+Write-Host "Computer: $CompName"
+Write-Host "Task: Get Log Analytics workspaces"
+Write-Host "====================================="
+Write-Host
+$LAWorkspaceRegKey="HKLM:\SYSTEM\CurrentControlSet\Services\HealthService\Parameters\Service Connector Services"
+If (Test-Path $LAWorkspaceRegKey) {
+$BindLAWorkspaceRegKey=Get-Item $LAWorkspaceRegKey
+$LAWorkspaceCount=($BindLAWorkspaceRegKey).SubKeyCount
+If ($LAWorkspaceCount -gt 0) {
+$ArrayLAWorkspaces=$BindLAWorkspaceRegKey.GetSubKeyNames()
+$ArrayLAWorkspaces | ForEach-Object {
+$LAWorkspaceId=$_.Substring(16)
+$LAWorkspaceTypeId=(Get-ItemProperty -Path $LAWorkspaceRegKey\$_)."Azure Cloud Type"
+Switch ($LAWorkspaceTypeId) {
+"0" {$LAWorkspaceType="Azure Commercial"; BREAK}
+"1" {$LAWorkspaceType="Azure US Government"; BREAK}
+"2" {$LAWorkspaceType="Azure China"; BREAK}
+"3" {$LAWorkspaceType="Azure US Nat"; BREAK}
+"4" {$LAWorkspaceType="Azure US Sec"; BREAK}
+Default {
+$LAWorkspaceType="Unknown"
+}
+}
+$LAWorkspaceConnectionStatusId=(Get-ItemProperty -Path $LAWorkspaceRegKey\$_)."Connection Status"
+If ($LAWorkspaceConnectionStatusId -eq 0) {
+$LAWorkspaceConnectionStatus="Connected"
+}
+Else {
+$LAWorkspaceConnectionStatus="Unknown"
+}
+$Output+="Workspace Id: $LAWorkspaceId`nCloud Type: $LAWorkspaceTypeId ($LAWorkspaceType)`nConnection Status: $LAWorkspaceConnectionStatusId ($LAWorkspaceConnectionStatus)`n`n"
+} # END FOR
+}
+Else {
+FoundNone
+}
+}
+Else {
+FoundNone
+}
+Write-Host $Output
+}
+GetLAWorkspaces
+]]>
+</ScriptBody>
+<Parameters>
+</Parameters>
+<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+</WriteAction>
+</MemberModules>
+<Composition>
+<Node ID="PSWA" />
+</Composition>
+</Composite>
+</ModuleImplementation>
+<OutputType>System!System.BaseData</OutputType>
+<InputType>System!System.BaseData</InputType>
+</WriteActionModuleType>
+
+<!--**************************************** GET TLS1.2 REGISTRY WRITE ACTION MODULE ****************************************-->
+
+<WriteActionModuleType ID="TestH.SCOM.Inventory.TaskGetTLS12.WA" Accessibility="Internal" Batching="false">
+<Configuration>
+<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+</Configuration>
+<OverrideableParameters>
+<OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+</OverrideableParameters>
+<ModuleImplementation Isolation="Any">
+<Composite>
+<MemberModules>
+<WriteAction ID="PSWA" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
+<ScriptName>TestH.SCOM.Inventory.TaskGetTLS12.WA.ps1</ScriptName>
+<ScriptBody><![CDATA[
+Function CheckNull ($PassedInParam) {
+If ([string]::IsNullOrEmpty($PassedInParam)) {
+$Script:Message+="[WARNING] Missing value name: $_\$ValueToCheck`n"
+}
+Else {
+$Script:Message+="[INFO] Found value: $_\$ValueToCheck=$PassedInParam`n"
+}
+}
+Function RunScript {
+$CompName=$env:computername
+Write-Host "====================================="
+Write-Host "Computer: $CompName"
+Write-Host "Task: Get TLS1.2 registry settings"
+Write-Host "====================================="
+Write-Host
+$ArrayTLS12NETEnabled="HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319","HKLM:\SOFTWARE\WOW6432Node\Microsoft\.NETFramework\v4.0.30319"
+$ArrayTLS12NETEnabled | ForEach-Object {
+$Count+=1
+If (Test-Path -Path $_) {
+$SchUseStrongCrypto=(Get-ItemProperty $_).SchUseStrongCrypto
+}
+$ValueToCheck="SchUseStrongCrypto"; CheckNull $SchUseStrongCrypto
+}
+$ArrayTLS12OSRegKey="HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client","HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server"
+$ArrayTLS12OSRegKey | ForEach-Object {
+If (Test-Path -Path $_) {
+$Enabled=(Get-ItemProperty $_).Enabled
+$DisabledByDefault=(Get-ItemProperty $_).DisabledByDefault
+}
+$ValueToCheck="Enabled"; CheckNull $Enabled
+$ValueToCheck="DisabledByDefault"; CheckNull $DisabledByDefault
+}
+$Script:Message
+}
+RunScript
+]]>
+</ScriptBody>
+<Parameters>
+</Parameters>
+<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+</WriteAction>
+</MemberModules>
+<Composition>
+<Node ID="PSWA" />
+</Composition>
+</Composite>
+</ModuleImplementation>
+<OutputType>System!System.BaseData</OutputType>
+<InputType>System!System.BaseData</InputType>
+</WriteActionModuleType>
+
+<!--**************************************** GET WINDOWS SERVICES WRITE ACTION MODULE ****************************************-->
+
+<WriteActionModuleType ID="TestH.SCOM.Inventory.GetWinServices.WA" Accessibility="Internal" Batching="false">
+<Configuration>
+<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+</Configuration>
+<OverrideableParameters>
+<OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+</OverrideableParameters>
+<ModuleImplementation Isolation="Any">
+<Composite>
+<MemberModules>
+<WriteAction ID="PSWA" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
+<ScriptName>TestH.SCOM.Inventory.GetWinServices.WA.ps1</ScriptName>
+<ScriptBody><![CDATA[
+$CompName=$env:computername
+Write-Host "====================================="
+Write-Host "Computer: $CompName"
+Write-Host "Task: Get Windows services"
+Write-Host "====================================="
+Write-Host
+Write-Host "Note: Services have been sorted by the DisplayName property."
+Write-Host
+$Services=Get-CimInstance -ClassName Win32_Service | Sort-Object DisplayName | Select-Object -Property DisplayName,Name,State,StartMode,StartName,ProcessId
+$Services | ForEach-Object {
+$DisplayName=$_.DisplayName
+$Name=$_.Name
+$State=$_.State
+$StartMode=$_.StartMode
+$StartName=$_.StartName
+$ProcessId=$_.ProcessId
+$Output+="DISPLAY_NAME: $DisplayName`nSERVICE_NAME: $Name`nSTATUS: $State`nStartMode_TYPE: $StartMode`nLOG_ON_ACCOUNT: $StartName`nPROCESS_ID: $ProcessId`n`n"
+}
+$Output
+]]>
+</ScriptBody>
+<Parameters>
+</Parameters>
+<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+</WriteAction>
+</MemberModules>
+<Composition>
+<Node ID="PSWA" />
+</Composition>
+</Composite>
+</ModuleImplementation>
+<OutputType>System!System.BaseData</OutputType>
+<InputType>System!System.BaseData</InputType>
+</WriteActionModuleType>
+
+<!--**************************************** GET WINDOWS DISK VOLUMES WRITE ACTION MODULE ****************************************-->
+
+<WriteActionModuleType ID="TestH.SCOM.Inventory.GetWinDiskVolumes.WA" Accessibility="Internal" Batching="false">
+<Configuration>
+<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+</Configuration>
+<OverrideableParameters>
+<OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+</OverrideableParameters>
+<ModuleImplementation Isolation="Any">
+<Composite>
+<MemberModules>
+<WriteAction ID="PSWA" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
+<ScriptName>TestH.SCOM.Inventory.GetWinDiskVolumes.WA.ps1</ScriptName>
+<ScriptBody><![CDATA[
+$CompName=$env:computername
+Write-Host "====================================="
+Write-Host "Computer: $CompName"
+Write-Host "Task: Get disk volumes"
+Write-Host "====================================="
+Write-Host
+Set-Variable -Name "CONVERSION_FACTOR" -Value "1073741824"
+Set-Variable -Name "FIXED_DISK" -Value "3"
+$Volumes=Get-CimInstance -ClassName Win32_Volume | Where-Object DriveType -eq $FIXED_DISK | Sort-Object Name
+$Volumes | ForEach-Object {
+$Name=$_.Name
+$Label=$_.Label
+$DriveType=$_.DriveType
+Switch ($DriveType) {
+"0" {$DriveType="Unknown"; BREAK}
+"1" {$DriveType="No Root Directory"; BREAK}
+"2" {$DriveType="Removable Disk"; BREAK}
+"3" {$DriveType="Local Disk"; BREAK}
+"4" {$DriveType="Network Drive"; BREAK}
+"5" {$DriveType="Compact Disc"; BREAK}
+"6" {$DriveType="RAM Disk"; BREAK}
+Default {$DriveType="Unknown"}
+}
+$FileSystem=$_.FileSystem
+$VolumeCapacity="{0:n2}" -f ($_.Capacity / $CONVERSION_FACTOR)
+$VolumeUsedSpace="{0:n2}" -f (($_.Capacity - $_.FreeSpace) / $CONVERSION_FACTOR)
+$VolumeFreeSpace="{0:n2}" -f ($_.FreeSpace / $CONVERSION_FACTOR)
+$DirtyBitSet=$_.DirtyBitSet
+$Output+="VOLUME_NAME: $Name`nVOLUME_LABEL: $Label`nDRIVE_TYPE: $DriveType`nFILE_SYSTEM: $FileSystem`nCAPACITY: $VolumeCapacity GB`nUSED_SPACE: $VolumeUsedSpace GB`nFREE_SPACE: $VolumeFreeSpace GB`nDIRTY_BIT_SET: $DirtyBitSet   `n`n"
+}
+$Output
+]]>
+</ScriptBody>
+<Parameters>
+</Parameters>
+<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+</WriteAction>
+</MemberModules>
+<Composition>
+<Node ID="PSWA" />
+</Composition>
+</Composite>
+</ModuleImplementation>
+<OutputType>System!System.BaseData</OutputType>
+<InputType>System!System.BaseData</InputType>
+</WriteActionModuleType>
+
+<!--**************************************** RESET AGENT HEALTH WRITE ACTION MODULE ****************************************-->
+
+<WriteActionModuleType ID="Microsoft.SystemCenter.ResetServiceStoreAction" Comment="Request Health Service Store Reset" Accessibility="Internal" Batching="false">
+<Configuration />
+<ModuleImplementation Isolation="Any">
+<Native>
+<ClassID>B253A4FA-71BE-4F5D-94D5-A46B0D2505AA</ClassID>
+</Native>
+</ModuleImplementation>
+<InputType>System!System.BaseData</InputType>
+</WriteActionModuleType>
+
+</ModuleTypes>
+</TypeDefinitions>
+
+<!--**************************************** RUN BUILT-IN TASKS ****************************************-->
+
+<Categories>
+<Category ID="Cat.TestH.SCOM.Inventory.ConsolePing.Task" Target="TestH.SCOM.Inventory.ConsolePing.Task" Value="System!System.Internal.ManagementPack.ConsoleTasks.MonitoringObject" />
+<Category ID="Cat.TestH.SCOM.Inventory.RDP.Task" Target="TestH.SCOM.Inventory.RDP.Task" Value="System!System.Internal.ManagementPack.ConsoleTasks.MonitoringObject" />
+</Categories>
+
+<Monitoring>
+
+<!--**************************************** DISCOVERIES ****************************************-->
+
+<Discoveries>
+<Discovery ID="TestH.SCOM.Inventory.Windows.ScriptDiscovery" Target="Windows!Microsoft.Windows.Computer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+<Category>Discovery</Category>
+<DiscoveryTypes>
+<DiscoveryClass TypeID="TestH.SCOM.Inventory.Windows.Class">
+<Property PropertyID="OperatingSystem"/>
+<Property PropertyID="Product"/>
+<Property PropertyID="AgentInstallDirectory"/>
+<Property PropertyID="AgentURInstallDate"/>
+<Property PropertyID="AgentVersion"/>
+<Property PropertyID="AgentMGCount"/>
+<Property PropertyID="AgentMGFailovers"/>
+<Property PropertyID="HealthServiceAccount"/>
+<Property PropertyID="HealthServiceStartMode"/>
+<Property PropertyID="CertificateExpiryDate"/>
+<Property PropertyID="ADIntegration"/>
+<Property PropertyID="APMInstalled"/>
+<Property PropertyID="APMServiceAccount"/>
+<Property PropertyID="APMServiceStartMode"/>
+<Property PropertyID="ACSForwarderServiceAccount"/>
+<Property PropertyID="ACSForwarderServiceStartMode"/>
+<Property PropertyID="TLS12"/>
+<Property PropertyID="LAWorkspaceCount"/>
+<Property PropertyID="LAWorkspaces"/>
+<Property PropertyID="LAProxyUrl"/>
+<Property PropertyID="LAProxyUsername"/>
+<Property PropertyID="ComputerType"/>
+<Property PropertyID="MgmtServerInstallDirectory"/>
+<Property PropertyID="MgmtServerURInstallDate"/>
+<Property PropertyID="MgmtServerVersion"/>
+<Property PropertyID="ConfigServiceAccount"/>
+<Property PropertyID="ConfigServiceStartMode"/>
+<Property PropertyID="DataAccessServiceAccount"/>
+<Property PropertyID="DataAccessServiceStartMode"/>
+<Property PropertyID="OpsDbName"/>
+<Property PropertyID="OpsDbServer"/>
+<Property PropertyID="DWDbName"/>
+<Property PropertyID="DwDbServer"/>
+<Property PropertyID="ACSCollector"/>
+<Property PropertyID="ACSCollectorServiceAccount"/>
+<Property PropertyID="ACSCollectorServiceStartMode"/>
+<Property PropertyID="ACSCollectorURInstallDate"/>
+<Property PropertyID="ACSCollectorVersion"/>
+<Property PropertyID="RMS"/>
+<Property PropertyID="GatewayServerInstallDirectory"/>
+<Property PropertyID="GatewayServerURInstallDate"/>
+<Property PropertyID="GatewayServerVersion"/>
+<Property PropertyID="GatewayMGCount"/>
+<Property PropertyID="GatewayMGFailovers"/>
+<Property PropertyID="WebConsoleInstallDirectory"/>
+<Property PropertyID="WebConsoleURInstallDate"/>
+<Property PropertyID="WebConsoleVersion"/>
+<Property PropertyID="AuthenticationMode"/>
+<Property PropertyID="DefaultServer"/>
+<Property PropertyID="WebConsoleUrl"/>
+<Property PropertyID="ApmAdvisorUrl"/>
+<Property PropertyID="ApmDiagnosticsUrl"/>
+<Property PropertyID="ReportServerInstallDirectory"/>
+<Property PropertyID="ReportServerURInstallDate"/>
+<Property PropertyID="ReportServerVersion"/>
+<Property PropertyID="ReportServerDwDbServer"/>
+<Property PropertyID="ReportServerDWDBName"/>
+<Property PropertyID="ReportServerUrl"/>
+<Property PropertyID="SRSInstance"/>
+<Property PropertyID="ReportServerServiceAccount"/>
+<Property PropertyID="ReportServerServiceStartMode"/>
+<Property PropertyID="ConsoleInstallDirectory"/>
+<Property PropertyID="ConsoleURInstallDate"/>
+<Property PropertyID="ConsoleVersion"/>
+</DiscoveryClass>
+</DiscoveryTypes>
+<DataSource ID="DS" TypeID="TestH.SCOM.Inventory.Discovery.WindowsDataSource">
+<IntervalSeconds>3600</IntervalSeconds> <!--REMEMBER TO CHANGE THIS!!!!!!!!!!!!!-->
+<SyncTime></SyncTime>
+<TimeoutSeconds>120</TimeoutSeconds>
+<IgnoreAgentMgmtGroups></IgnoreAgentMgmtGroups> <!--Don't put anything here else it will get passed in.-->
+<IgnoreAgentVersion>false</IgnoreAgentVersion>
+<IgnoreGatewayMgmtGroups></IgnoreGatewayMgmtGroups> <!--Don't put anything here else it will get passed in.-->
+<IgnoreReportServerVersion>false</IgnoreReportServerVersion>
+</DataSource>
+</Discovery>
+</Discoveries>
+
+<!--**************************************** RULES ****************************************-->
+
+<!--**************************************** TASKS ****************************************-->
+
+<Tasks>
+
+<Task ID="TestH.SCOM.Inventory.Task.agent" Accessibility="Public" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" Timeout="120" Remotable="true">
+<Category>Maintenance</Category>
+<WriteAction ID="PSWA" TypeID="TestH.SCOM.Inventory.Task.WA">
+<TimeoutSeconds>180</TimeoutSeconds>
+</WriteAction>
+</Task>
+
+<Task ID="TestH.SCOM.Inventory.TaskGetTLS12" Accessibility="Public" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" Timeout="120" Remotable="true">
+<Category>Maintenance</Category>
+<WriteAction ID="PSWA" TypeID="TestH.SCOM.Inventory.TaskGetTLS12.WA">
+<TimeoutSeconds>180</TimeoutSeconds>
+</WriteAction>
+</Task>
+
+<!--Get windows services-->
+<Task ID="TestH.SCOM.Inventory.GetWinServices" Accessibility="Public" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" Timeout="120" Remotable="true">
+<Category>Maintenance</Category>
+<WriteAction ID="PSWA" TypeID="TestH.SCOM.Inventory.GetWinServices.WA">
+<TimeoutSeconds>180</TimeoutSeconds>
+</WriteAction>
+</Task>
+
+<!--Get windows services-->
+<Task ID="TestH.SCOM.Inventory.GetWinDiskVolumes" Accessibility="Public" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" Timeout="120" Remotable="true">
+<Category>Maintenance</Category>
+<WriteAction ID="PSWA" TypeID="TestH.SCOM.Inventory.GetWinDiskVolumes.WA">
+<TimeoutSeconds>180</TimeoutSeconds>
+</WriteAction>
+</Task>
+
+<!--Reset health-->
+<Task ID="TestH.SCOM.Inventory.ResetAgentHealth" Comment="Request Health Service Store Reset" Accessibility="Internal" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" Timeout="300" Remotable="true">
+<Category>Maintenance</Category>
+<WriteAction ID="ResetServiceStore" TypeID="Microsoft.SystemCenter.ResetServiceStoreAction" />
+</Task>
+
+</Tasks>
+
+<!--**************************************** MONITORS ****************************************-->
+
+<Monitors>
+<UnitMonitor ID="TestH.SCOM.Inventory.Monitoring.EventMonitor" Accessibility="Public" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" ParentMonitorID="Health!System.Health.ConfigurationState" Remotable="true" Priority="Normal" TypeID="Windows!Microsoft.Windows.2SingleEventLog2StateMonitorType" ConfirmDelivery="true">
+<Category>Custom</Category>
+<AlertSettings AlertMessage="TestH.SCOM.Inventory.Monitoring.EventMonitor.AlertMessage">
+<AlertOnState>Warning</AlertOnState>
+<AutoResolve>true</AutoResolve>
+<AlertPriority>Low</AlertPriority>
+<AlertSeverity>Information</AlertSeverity>
+<AlertParameters>
+<AlertParameter1>$Data/Context/EventDescription$</AlertParameter1>
+</AlertParameters>
+</AlertSettings>
+<OperationalStates>
+<OperationalState ID="OpsStateWarning" MonitorTypeStateID="FirstEventRaised" HealthState="Warning" />
+<OperationalState ID="OpsStateHealthy" MonitorTypeStateID="SecondEventRaised" HealthState="Success" />
+</OperationalStates>
+<Configuration>
+<FirstComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</FirstComputerName>
+<FirstLogName>Operations Manager</FirstLogName>
+<FirstExpression>
+<And>
+<Expression>
+<SimpleExpression>
+<ValueExpression>
+<XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+</ValueExpression>
+<Operator>Equal</Operator>
+<ValueExpression>
+<Value Type="UnsignedInteger">17611</Value>
+</ValueExpression>
+</SimpleExpression>
+</Expression>
+<Expression>
+<SimpleExpression>
+<ValueExpression>
+<XPathQuery Type="String">PublisherName</XPathQuery>
+</ValueExpression>
+<Operator>Equal</Operator>
+<ValueExpression>
+<Value Type="String">Health Service Script</Value>
+</ValueExpression>
+</SimpleExpression>
+</Expression>
+</And>
+</FirstExpression>
+<SecondComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</SecondComputerName>
+<SecondLogName>Operations Manager</SecondLogName>
+<SecondExpression>
+<And>
+<Expression>
+<SimpleExpression>
+<ValueExpression>
+<XPathQuery Type="UnsignedInteger">EventDisplayNumber</XPathQuery>
+</ValueExpression>
+<Operator>Equal</Operator>
+<ValueExpression>
+<Value Type="UnsignedInteger">17610</Value>
+</ValueExpression>
+</SimpleExpression>
+</Expression>
+<Expression>
+<SimpleExpression>
+<ValueExpression>
+<XPathQuery Type="String">PublisherName</XPathQuery>
+</ValueExpression>
+<Operator>Equal</Operator>
+<ValueExpression>
+<Value Type="String">Health Service Script</Value>
+</ValueExpression>
+</SimpleExpression>
+</Expression>
+</And>
+</SecondExpression>
+</Configuration>
+</UnitMonitor>
+</Monitors>
+</Monitoring>
+<Presentation>
+
+<!--**************************************** CONSOLE TASKS ****************************************-->
+
+<ConsoleTasks>
+<ConsoleTask ID="TestH.SCOM.Inventory.ConsolePing.Task" Accessibility="Internal" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" RequireOutput="true">
+<Assembly>Res.TestH.SCOM.Inventory.ConsolePing.Task</Assembly>
+<Handler>ShellHandler</Handler>
+<Parameters>
+<Argument Name="WorkingDirectory" />
+<Argument Name="Application">%windir%\system32\ping.exe</Argument>
+<Argument>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Argument>
+</Parameters>
+</ConsoleTask>
+
+<ConsoleTask ID="TestH.SCOM.Inventory.RDP.Task" Accessibility="Internal" Enabled="true" Target="TestH.SCOM.Inventory.Windows.Class" RequireOutput="false">
+<Assembly>Res.TestH.SCOM.Inventory.RDP.Task</Assembly>
+<Handler>ShellHandler</Handler>
+<Parameters>
+<Argument Name="WorkingDirectory" />
+<Argument Name="Application">%windir%\system32\mstsc.exe</Argument>
+<Argument>/v:</Argument>
+<Argument>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$ /f</Argument>
+</Parameters>
+</ConsoleTask>
+</ConsoleTasks>
+
+<StringResources>
+<StringResource ID="TestH.SCOM.Inventory.Monitoring.EventMonitor.AlertMessage" />
+</StringResources>
+</Presentation>
+<LanguagePacks>
+<LanguagePack ID="ENU" IsDefault="true">
+<DisplayStrings>
+
+<!--**************************************** MANAGEMENT PACK ****************************************-->
+
+<DisplayString ElementID="TestH.SCOM.Inventory.Monitoring">
+<Name>TestH SCOM Inventory (Monitoring)</Name>
+<Description>Scripts and utilities that collect inventory information about the SCOM management group. Created by the Workplace and Mobility monitoring team.</Description>
+</DisplayString>
+
+<!--Windows class-->
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class">
+<Name>TestH SCOM Inventory Windows</Name>
+<Description></Description>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="OperatingSystem">
+<Name>Operating System</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="Product">
+<Name>Product</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="AgentInstallDirectory">
+<Name>Agent Install Directory</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="AgentURInstallDate">
+<Name>Agent UR Install Date (YMD)</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="AgentVersion">
+<Name>Agent Version</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="AgentMGCount">
+<Name>Agent MG Count</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="AgentMGFailovers">
+<Name>Agent MG Failovers</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="HealthServiceAccount">
+<Name>Health Service Account</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="HealthServiceStartMode">
+<Name>Health Service Start Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="CertificateExpiryDate">
+<Name>Certificate Expiry Date (YMD)</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ADIntegration">
+<Name>AD Integration</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="APMInstalled">
+<Name>APM Installed</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="APMServiceAccount">
+<Name>APM Service Account</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="APMServiceStartMode">
+<Name>APM Service Start Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ACSForwarderServiceAccount">
+<Name>ACS Forwarder Service Account</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ACSForwarderServiceStartMode">
+<Name>ACS Forwarder Service Start Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="TLS12">
+<Name>TLS 1.2</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="LAWorkspaceCount">
+<Name>LA Workspace Count</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="LAWorkspaces">
+<Name>LA Workspaces</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="LAProxyUrl">
+<Name>LA ProxyUrl</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="LAProxyUsername">
+<Name>LA Proxy Username</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ComputerType">
+<Name>Computer Type</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="MgmtServerInstallDirectory">
+<Name>Mgmt Server Install Directory</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="MgmtServerURInstallDate">
+<Name>Mgmt Server UR Install Date (YMD)</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="MgmtServerVersion">
+<Name>Mgmt Server Version</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ConfigServiceAccount">
+<Name>Config Service Account</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ConfigServiceStartMode">
+<Name>Config Service Start Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="DataAccessServiceAccount">
+<Name>Data Access Service Account</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="DataAccessServiceStartMode">
+<Name>Data Access Service Start Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="OpsDbName">
+<Name>Operations Manager Database Name</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="OpsDbServer">
+<Name>Operations Manager Database Server</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="DWDbName">
+<Name>Data Warehouse Database Name</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="DwDbServer">
+<Name>Data Warehouse Database Server</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ACSCollector">
+<Name>ACS Collector</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ACSCollectorServiceAccount">
+<Name>ACS Collector Service Account</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ACSCollectorServiceStartMode">
+<Name>ACS Collector Service Start Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ACSCollectorURInstallDate">
+<Name>ACS Collector UR Install Date (YMD)</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ACSCollectorVersion">
+<Name>ACS Collector Version</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="RMS">
+<Name>RMS</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="GatewayServerInstallDirectory">
+<Name>Gateway Server Install Directory</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="GatewayServerURInstallDate">
+<Name>Gateway Server UR Install Date (YMD)</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="GatewayServerVersion">
+<Name>Gateway Server Version</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="GatewayMGCount">
+<Name>Gateway MG Count</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="GatewayMGFailovers">
+<Name>Gateway MG Failovers</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="WebConsoleInstallDirectory">
+<Name>Web Console Install Directory</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="WebConsoleURInstallDate">
+<Name>Web Console UR Install Date (YMD)</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="WebConsoleVersion">
+<Name>Web Console Version</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="AuthenticationMode">
+<Name>Authentication Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="DefaultServer">
+<Name>Default Server</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="WebConsoleUrl">
+<Name>Web Console Url</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ApmAdvisorUrl">
+<Name>Apm Advisor Url</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ApmDiagnosticsUrl">
+<Name>Apm Diagnostics Url</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerInstallDirectory">
+<Name>Report Server Install Directory</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerServiceAccount">
+<Name>Report Server Service Account</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerServiceStartMode">
+<Name>Report Server Service Start Mode</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerURInstallDate">
+<Name>Report Server UR Install Date (YMD)</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerVersion">
+<Name>Report Server Version</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerDwDbServer">
+<Name>Data Warehouse Database Server</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerDWDBName">
+<Name>Data Warehouse Database Name</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ReportServerUrl">
+<Name>Report Server Url</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="SRSInstance">
+<Name>SRS Instance</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ConsoleVersion">
+<Name>Console Version</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ConsoleInstallDirectory">
+<Name>Console Install Directory</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.Class" SubElementID="ConsoleURInstallDate">
+<Name>Console UR Install Date (YMD)</Name>
+</DisplayString>
+
+<!--Windows discovery-->
+<DisplayString ElementID="TestH.SCOM.Inventory.Windows.ScriptDiscovery">
+<Name>TestH SCOM Inventory Windows Script Discovery</Name>
+<Description>redo? - PowerShell script that get properties of 'TestH.SCOM.Inventory.Windows.Class'.</Description>
+</DisplayString>
+
+<!--Agent script monitor-->
+<DisplayString ElementID="TestH.SCOM.Inventory.Monitoring.EventMonitor">
+<Name>Test - SCOM Inventory script had errors</Name>
+<Description>add later</Description>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Monitoring.EventMonitor" SubElementID="OpsStateHealthy">
+<Name>Event Raised</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Monitoring.EventMonitor" SubElementID="OpsStateWarning">
+<Name>Missing Event Raised</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Monitoring.EventMonitor.AlertMessage">
+<Name>Test Alert - SCOM Inventory script had errors</Name>
+<Description>{0}</Description>
+</DisplayString>
+
+<!--Universal task-->
+<DisplayString ElementID="TestH.SCOM.Inventory.Task.agent">
+<Name>Get LA Workspaces - agent</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.TaskGetTLS12">
+<Name>Get TLS 1.2 reg settings</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.Discovery.WindowsDataSource">
+<Name>TestH.SCOM.Inventory.Discovery.WindowsDataSource</Name>
+</DisplayString>
+
+<!--Console tasks-->
+<DisplayString ElementID="TestH.SCOM.Inventory.ConsolePing.Task">
+<Name>Ping</Name>
+</DisplayString>
+<DisplayString ElementID="TestH.SCOM.Inventory.RDP.Task">
+<Name>RDP</Name>
+</DisplayString>
+
+<DisplayString ElementID="TestH.SCOM.Inventory.GetWinServices">
+<Name>Get services</Name>
+</DisplayString>
+
+<DisplayString ElementID="TestH.SCOM.Inventory.GetWinDiskVolumes">
+<Name>Get disk volumes</Name>
+</DisplayString>
+
+<DisplayString ElementID="TestH.SCOM.Inventory.ResetAgentHealth">
+<Name>Flush Cache</Name>
+<Description>This task was copied from the original Microsoft task, I've just included it here for convenience. When you run this task it logs an event to the Operations Manager log on the agent with these properties: Id =103, Level=Warning, Source=HealthService.</Description>
+</DisplayString>
+
+</DisplayStrings>
+
+<KnowledgeArticles>
+<KnowledgeArticle ElementID="TestH.SCOM.Inventory.Monitoring" Visible="true">
+<MamlContent>
+<maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+<maml:title>Here's a title.</maml:title>
+<maml:para>Line 1.</maml:para>
+<maml:para>Line 2.</maml:para>
+<maml:list>
+<maml:listItem>
+<maml:para>Bullet Point 1.</maml:para>
+</maml:listItem>
+<maml:listItem>
+<maml:para>Bullet Point 2.</maml:para>
+</maml:listItem>
+<maml:listItem>
+<maml:para>Bullet Point 3.</maml:para>
+</maml:listItem>
+</maml:list>
+</maml:section>
+</MamlContent>
+</KnowledgeArticle>
+<KnowledgeArticle ElementID="TestH.SCOM.Inventory.Monitoring.EventMonitor" Visible="true">
+<MamlContent>
+<maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+<maml:title>Here's my monitor.</maml:title>
+<maml:para>Line 1.</maml:para>
+<maml:para>Line 2.</maml:para>
+</maml:section>
+</MamlContent>
+</KnowledgeArticle>
+</KnowledgeArticles>
+</LanguagePack>
+</LanguagePacks>
+<Resources>
+<Assembly ID="Res.TestH.SCOM.Inventory.ConsolePing.Task" Accessibility="Public" FileName="TestH.SCOM.Inventory.ConsolePing.Task" HasNullStream="true" QualifiedName="TestH.SCOM.Inventory.ConsolePing.Task" />
+<Assembly ID="Res.TestH.SCOM.Inventory.RDP.Task" Accessibility="Public" FileName="TestH.SCOM.Inventory.RDP.Task" HasNullStream="true" QualifiedName="TestH.SCOM.Inventory.RDP.Task" />
+</Resources>
+</ManagementPack>

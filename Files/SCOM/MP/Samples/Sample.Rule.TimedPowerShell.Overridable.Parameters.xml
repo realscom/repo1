@@ -1,0 +1,131 @@
+<!--
+This shows how you can run a PowerShell script in a rule and override the parameters that are passed in to the script. 3 parameters can be set:
+OverrideParameter - whatever you like here.
+UserName - shows how to pass in Run As credentials if you need to run the script under a specific account
+Password - as above
+
+Remember to setup the Run As account so you can see the username/password info too.
+
+You will see the weird %2 string in the event because we're using "Health Service Script" as the source, just ignore it it's a bug.
+
+*** WARNING this runs every 1 minute on the RMS ***
+-->
+
+<ManagementPack ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<Manifest>
+		<Identity>
+			<ID>Sample.Rule.TimedPowerShell.Overridable.Parameters.MP</ID>
+			<Version>1.0.0.0</Version>
+		</Identity>
+		<Name>Sample.Rule.TimedPowerShell.Overridable.Parameters.MP</Name>
+		<References>
+			<Reference Alias="SystemCenter">
+				<ID>Microsoft.SystemCenter.Library</ID>
+				<Version>7.0.8433.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+			<Reference Alias="System">
+				<ID>System.Library</ID>
+				<Version>7.5.8501.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+			<Reference Alias="Windows">
+				<ID>Microsoft.Windows.Library</ID>
+				<Version>7.5.8501.0</Version>
+				<PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+			</Reference>
+		</References>
+	</Manifest>
+	<TypeDefinitions>
+		<SecureReferences>
+			<SecureReference ID="Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.RunAsProfile" Accessibility="Public" Context="System!System.Entity" />
+		</SecureReferences>
+		<ModuleTypes>
+			<WriteActionModuleType ID="Sample.Rule.TimedPowerShell.WriteAction" Accessibility="Internal" Batching="false">
+				<Configuration>
+					<xsd:element minOccurs="1" name="OverrideParameter" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="1" name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="OverrideParameter" Selector="$Config/OverrideParameter$" ParameterType="string" />
+					<OverrideableParameter ID="TimeoutSeconds" Selector="$Config/TimeoutSeconds$" ParameterType="int" />
+				</OverrideableParameters>
+				<ModuleImplementation Isolation="Any">
+					<Composite>
+						<MemberModules>
+							<WriteAction ID="WA" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
+								<ScriptName>Sample.Script.ps1</ScriptName>
+								<ScriptBody>
+									<![CDATA[
+Param ([string]$Username,[string]$Password,[string]$OverrideParameter)
+$Message="Sample MP Version: 1.0.0.0`rUsername: $Username`rPassword: $Password`rOverrideParameter: $OverrideParameter`r"
+Write-EventLog -LogName "Operations Manager" -Source "Health Service Script" -EventId 1706 -EntryType "Information" -Message $Message -Category 0
+]]>
+								</ScriptBody>
+								<Parameters>
+									<Parameter>
+										<Name>OverrideParameter</Name>
+										<Value>$Config/OverrideParameter$</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Username</Name>
+										<Value>$RunAs[Name="Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.RunAsProfile"]/UserName$</Value>
+									</Parameter>
+									<Parameter>
+										<Name>Password</Name>
+										<Value>$RunAs[Name="Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.RunAsProfile"]/Password$</Value>
+									</Parameter>
+								</Parameters>
+								<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+							</WriteAction>
+						</MemberModules>
+						<Composition>
+							<Node ID="WA" />
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>System!System.BaseData</OutputType>
+				<InputType>System!System.BaseData</InputType>
+			</WriteActionModuleType>
+		</ModuleTypes>
+	</TypeDefinitions>
+	<Monitoring>
+		<Rules>
+			<Rule ID="Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.Rule" Enabled="true" Target="SystemCenter!Microsoft.SystemCenter.RootManagementServer" ConfirmDelivery="true" Remotable="true" Priority="Normal" DiscardLevel="100">
+				<Category>Maintenance</Category>
+				<DataSources>
+					<DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+						<Scheduler>
+							<SimpleReccuringSchedule>
+								<Interval Unit="Seconds">60</Interval>
+								<SyncTime />
+							</SimpleReccuringSchedule>
+							<ExcludeDates />
+						</Scheduler>
+					</DataSource>
+				</DataSources>
+				<WriteActions>
+					<WriteAction ID="WA" TypeID="Sample.Rule.TimedPowerShell.WriteAction">
+						<OverrideParameter>WriteAnythingHere</OverrideParameter>
+						<TimeoutSeconds>120</TimeoutSeconds>
+					</WriteAction>
+				</WriteActions>
+			</Rule>
+		</Rules>
+	</Monitoring>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="false">
+			<DisplayStrings>
+				<DisplayString ElementID="Sample.Rule.TimedPowerShell.Overridable.Parameters.MP">
+					<Name>Sample.Rule.TimedPowerShell.Overridable.Parameters.MP</Name>
+				</DisplayString>
+				<DisplayString ElementID="Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.RunAsProfile">
+					<Name>Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.RunAsProfile</Name>
+				</DisplayString>
+				<DisplayString ElementID="Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.Rule">
+					<Name>Sample.Rule.TimedPowerShell.Overridable.Parameters.MP.Rule</Name>
+				</DisplayString>
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPack>
